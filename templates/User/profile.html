@@ -1,0 +1,280 @@
+{% extends 'layouts/base.html' %}
+{% block head %}
+    <style>
+        .font-style {
+            font-family: 'Abril Fatface', sans-serif;
+        }
+
+        .zero-padding {
+            padding: 0;
+        }
+
+        .btn-default {
+            color: #fff;
+            text-transform: uppercase;
+            font-family: sans-serif;
+            box-sizing: border-box;
+            background: linear-gradient(90deg, orange, orange, yellow, white, grey, orange, orange, yellow);
+            background-size: 400%;
+            border-radius: 30px;
+        }
+
+        .btn-default:hover {
+            animation: animate 8s linear infinite;
+        }
+
+        @keyframes animate {
+            0% {
+                background-position: 0%;
+            }
+            100% {
+                background-position: 400%;
+            }
+        }
+
+        .btn-default:before {
+            content: "";
+            background: linear-gradient(45deg, #f15523, #ef3224, #7c3697);
+            background-size: 400%;
+            border-radius: 40px;
+            opacity: 0;
+        }
+
+        .btn-default:hover:before {
+            filter: blur(20px);
+            opacity: 1;
+            animation: animate 8s linear infinite;
+        }
+
+        .form-floating > label {
+            top: -8px;
+            color: black;
+        }
+
+        .form-floating > .form-control {
+            height: calc(2.5rem + 2px);
+        }
+
+        .profile-image {
+            position: relative;
+            bottom: 30px;
+        }
+    </style>
+{% endblock head %}
+{% block content %}
+    <div id="form_body" class="row justify-content-center"
+         style="margin-top: 10px;">
+        <div class="col-lg-5">
+            <div style="height: 60px"></div>
+            <div class="row user-form-card">
+                <div class="d-flex justify-content-center align-items-center text-capitalize font-style h1 text-light"
+                     style="height: 60px;">
+                    {% load socialaccount %}
+                    {% get_social_accounts user as accounts %}
+                    {% if user.picture %}
+                        <img src="{{ user.picture.url }}"
+                             class="rounded-circle me-2 profile-image" height="140"
+                             loading="lazy"
+                             style="background-color:white;"/>
+                    {% elif accounts.google.0.extra_data.picture %}
+                        <img src="{{ accounts.google.0.extra_data.picture }}"
+                             class="rounded-circle me-2 profile-image" height="140"
+                             loading="lazy"
+                             style="background-color:white;"/>
+                    {% else %}
+                        <img src="https://img.icons8.com/material/48/000000/user-male-circle--v1.png"
+                             class="rounded-circle me-2 profile-image" height="140"
+                             loading="lazy"
+                             style="background-color:white;"/>
+                    {% endif %}
+                </div>
+                <div class="col-lg-12 zero-padding" style="">
+                    <div class="d-flex justify-content-center align-items-center text-capitalize font-style h2"
+                         style="height: 50px;">
+                        personal information
+                    </div>
+                    <div style="padding: 0 40px;">
+                        <form action="{% url "edit_profile" user.get_username %}" method="post" id="form"
+                              enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="col">
+                                    <div class="form-floating mb-3">
+                                        <input type="text" class="form-control" id="first_name"
+                                               name="first_name" autocomplete="given-name" placeholder="First Name"
+                                               value="{{ user.first_name }}" required disabled>
+                                        <label for="first_name" class="text-capitalize">First name</label>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="form-floating mb-3">
+                                        <input type="text" aria-label="Last name" class="form-control" id="last_name"
+                                               name="last_name" autocomplete="family-name" placeholder="Last Name"
+                                               value="{{ user.last_name }}" required disabled>
+                                        <label for="last_name" class="text-capitalize">Last name</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <div class="form-floating mb-3">
+                                        <input type="text" class="form-control" placeholder="Username" id="username"
+                                               name="username" autocomplete="username" value="{{ user.get_username }}"
+                                               required disabled>
+                                        <label for="username" class="text-capitalize">Username</label>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="form-floating mb-3">
+                                        <input type="tel" class="form-control" id="phone_number" name="phone_number"
+                                               autocomplete="tel" placeholder="Phone Number" value="{{ user.phone }}"
+                                               required disabled>
+                                        <label class="text-capitalize">Phone Number</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input type="email" class="form-control" placeholder="Email" id="email"
+                                       name="email" autocomplete="email" value="{{ user.email }}" required disabled>
+                                <label for="email" class="text-capitalize">Email</label>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <div class="form-floating mb-3">
+                                        <input type="password" class="form-control" placeholder="Password"
+                                               id="old_password"
+                                               name="old_password" autocomplete="password" disabled>
+                                        <label class="text-capitalize">Old Password</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <div class="form-floating mb-3">
+                                        <input type="password" class="form-control" placeholder="Password" id="password"
+                                               name="password" autocomplete="new-password" disabled>
+                                        <label class="text-capitalize"> New Password</label>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="form-floating mb-3">
+                                        <input type="password" class="form-control" placeholder="Retype Password"
+                                               id="retyped_password" name="retyped_password" autocomplete="new-password"
+                                               disabled>
+                                        <label class="text-capitalize">Confirm New Password</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <div class="mb-3">
+                                        <label>Gender: </label>
+                                        <div class="form-check form-check-inline">
+                                            {% if user.gender == "M" %}
+                                                <input class="form-check-input" type="radio" name="gender" id="Male"
+                                                       value="M" checked>
+                                            {% else %}
+                                                <input class="form-check-input" type="radio" name="gender" id="Male"
+                                                       value="M" disabled>
+                                            {% endif %}
+                                            <label class="form-check-label" for="Male">Male</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            {% if user.gender == "F" %}
+                                                <input class="form-check-input" type="radio" name="gender" id="Female"
+                                                       value="F" checked>
+                                            {% else %}
+                                                <input class="form-check-input" type="radio" name="gender" id="Female"
+                                                       value="F" disabled>
+                                            {% endif %}
+                                            <label class="form-check-label" for="Female">Female</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="input-group mb-3">
+                                        <label class="me-3 d-flex justify-content-center align-items-center">Birthdate: </label>
+                                        <input type="date" name="birthdate" class="vDateField" size="10" id="birthdate"
+                                               placeholder="Birthdate" autocomplete="bday" required
+                                               value="{{ user.birthdate|date:"Y-m-d" }}">
+                                        <div class="input-group-text">
+                                            <label class="fas fa-calendar"></label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <div class="input-group">
+                                    <label class="me-3 d-flex justify-content-center align-items-center">Major </label>
+                                    <select class="form-select form-select-md" disabled
+                                            aria-label=".form-select-lg example" id="major" name="major"
+                                            form="form">
+                                        <option value="{{ user.major }}" selected>{{ user.major }}</option>
+                                        {% for value in available_majors %}
+                                            <option value="{{ value }}">{{ value }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            <input class="mt-1" type="file" name="picture" accept="image/*" capture disabled
+                                   value="{{ user.picture }}">
+                            {% if user.is_instructor %}
+                                <div class="form-floating my-3">
+                                    <input type="text" class="form-control" placeholder="bio" id="bio"
+                                           name="bio" autocomplete="bio" required value="{{ instructor.bio }}">
+                                    <label for="bio" class="text-capitalize">bio</label>
+                                </div>
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control" placeholder="job_title" id="job_title"
+                                           name="job_title" autocomplete="job_title" required
+                                           value="{{ instructor.job_title }}">
+                                    <label for="job_title" class="text-capitalize">job title</label>
+                                </div>
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control" placeholder="experience" id="experience"
+                                           name="experience" autocomplete="experience" required
+                                           value="{{ instructor.experience }}">
+                                    <label for="experience" class="text-capitalize">experience</label>
+                                </div>
+                            {% endif %}
+                            <div class="text-center mb-3">
+                                <button id="edit" class="w-40 btn btn-lg ck btn-default mx-4 col-2" type="button"
+                                        style="color: white;">
+                                    Edit
+                                </button>
+                                <button class="w-40 btn btn-lg ck btn-default mx-4 col-2" type="submit"
+                                        style="color: white" value="Sign up" disabled>
+                                    Save
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        {% comment %}document.addEventListener('DOMContentLoaded', function () {
+            setTimeout(function () {
+                // Your Code
+            }, 0);
+        }){% endcomment %}
+        window.onload =
+            $("#edit").click(function () {
+                if ($("#edit").text().trim() === "Edit") {
+                    $("input").prop('disabled', false);
+                    $('select').removeAttr('disabled');
+                    $("button[type='submit']").removeAttr('disabled');
+                    $("#edit").text('Close');
+                } else {
+                    $("input").prop('disabled', true);
+                    $("button[type='submit']").prop('disabled', true);
+                    $('select').attr('disabled', 'disabled');
+                    $("input[type='radio']:checked").prop('disabled', false);
+                    $("#birthdate").prop('disabled', false);
+                    $("#edit").text('Edit');
+                }
+            });
+    </script>
+{% endblock content %}

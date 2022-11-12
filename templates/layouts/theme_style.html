@@ -1,0 +1,39 @@
+<style>
+    .small_cards {
+        background-color: #d0d0d2;
+        color: black;
+    }
+
+    .zero-padding {
+        padding: 0;
+    }
+
+    {% if request.COOKIES.Theme == "Light" %}
+        body {
+            background-color: white;
+            color: black;
+        }
+        .font-color {
+            color: black;
+        }
+        .user-form-card {
+            border: 1px solid orange
+        }
+
+    {% elif request.COOKIES.Theme == "Dark" %}
+        body {
+            background-color: black;
+            color: white;
+        }
+        .bg-dark {
+            background-color: #1f1f1f;
+        }
+        .font-color {
+            color: white;
+        }
+        .user-form-card {
+            background-color: #1f1f1f;
+        }
+
+    {% endif %}
+</style>

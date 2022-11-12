@@ -1,0 +1,208 @@
+{% extends 'layouts/base.html' %}
+{% block head %}
+    <style>
+        #first_image {
+            background-image: url('/media/background1.jpg');
+            background-repeat: no-repeat;
+            background-size: 100% 100%;
+        }
+
+        #second_image {
+            background-image: url('/media/bg2.jpeg');
+            background-repeat: no-repeat;
+            background-size: 100% 100%;
+        }
+
+        #third_image {
+            background-image: url('/media/bg3.jpeg');
+            background-repeat: no-repeat;
+            background-size: 100% 100%;
+        }
+
+
+        .icon_style {
+            background-color: white;
+        }
+
+        .contact_style {
+            background-color: orange;
+            padding: 10px;
+        }
+
+        .row_style {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            font-size: 1.25rem;
+            font-weight: 300;
+        }
+
+        .divider_style {
+            margin-bottom: 200px;
+        }
+    </style>
+{% endblock head %}
+{% block content %}
+    <div class="row justify-content-md-center">
+        <div class="col-lg-10">
+            <div class="carousel slide" data-ride="carousel">
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <div id="first_image" style="height: 640px;margin: 0"></div>
+                        <div class="carousel-caption row justify-content-md-center">
+                            <h1 class="text-capitalize rounded col-lg-10"
+                                style="position: relative;bottom: 40px;background-color: #ffa500d4;padding-bottom:5px;
+                                box-shadow: 5px 5px 5px white;font-family: 'Abril Fatface', sans-serif">
+                                The proud Man is always striving
+                                <br>
+                                to improve himself.</h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row justify-content-md-center" style="position: relative;bottom: 40px;">
+        <div class="container col-lg-8 row justify-content-md-between">
+            <div class="card col-lg-3 card-block d-flex rounded-0 small_cards">
+                <div class="card-body align-items-center d-flex justify-content-center">
+                    <div class="text-capitalize text-center">
+                        <img class="rounded icon_style" src="https://img.icons8.com/windows/64/000000/courses.png"/>
+                        <br>
+                        <strong>All-fields course recommendation system</strong>
+                    </div>
+                </div>
+            </div>
+            <div class="card col-lg-3 card-block d-flex rounded-0 small_cards">
+                <div class="card-body align-items-center d-flex justify-content-center">
+                    <div class="text-capitalize text-center">
+                        <img class="rounded icon_style"
+                             src="https://img.icons8.com/windows/64/000000/test-results.png"/>
+                        <br>
+                        <strong>Placement test</strong>
+                    </div>
+                </div>
+            </div>
+            <div class="card col-lg-3 card-block d-flex rounded-0 small_cards">
+                <div class="card-body align-items-center d-flex justify-content-center">
+                    <div class="text-capitalize text-center">
+                        <img class="rounded icon_style" style="padding: 4px"
+                             src="https://img.icons8.com/external-justicon-lineal-justicon/55/000000/external-teacher-elearning-and-education-justicon-lineal-justicon.png"/>
+                        <br>
+                        <strong>Expert instructors</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="About_US" class="divider_style"></div>
+    <div class="row justify-content-md-center" style="margin-top: 100px;">
+        <div class="col-lg-10">
+            <div class="row justify-content-md-center">
+                <div class="col-lg-5">
+                    <div class="carousel slide" data-ride="carousel">
+                        <div class="carousel-inner">
+                            <div class="carousel-item active">
+                                <div id="second_image" style="height: 400px;margin: 0"></div>
+                                <div class="carousel-caption row justify-content-md-center">
+                                    <h1 class="text-capitalize rounded col-lg-10"
+                                        style="position: relative;bottom: 40px;padding-bottom:5px;
+                                box-shadow: 5px 5px 5px white;font-family: 'Abril Fatface', sans-serif">
+                                        About Us</h1>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-5 text-capitalize">
+                    <div class="card card-block d-flex rounded-0"
+                         style="background-color: transparent; margin-top: 65px;border: none;">
+                        <div class="card-head text-center h1 font-color"
+                             style="font-family: 'Abril Fatface', sans-serif">
+                            ─── &nbsp; Our story &nbsp; ───
+                        </div>
+                        <div class="card-body align-items-center d-flex justify-content-center">
+                            <div class="lead font-color">
+                                We are three talented students who joined the Huawei ambassador program.
+                                And moved to the next phase "Future Star".
+                                Then we decided to make the students' education life easier.
+                                We have always aimed to do things a little differently.
+                                Since the early days, we have focused on building a unique system.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="Contact_Us" class="divider_style"></div>
+    <div class="row justify-content-md-center" style="margin-top: 100px;">
+        <div class="col-lg-10">
+            <div class="row justify-content-md-center">
+                <div class="col-lg-5 text-capitalize">
+                    <div class="card card-block d-flex rounded-0"
+                         style="background-color: transparent; color: white;margin-top: 65px;border: none;">
+                        <div class="card-head text-center h1" style="font-family: 'Abril Fatface', sans-serif">
+                            ─── &nbsp; Get in touch &nbsp; ───
+                        </div>
+                        <div class="card-body align-items-center d-flex justify-content-center">
+                            <div class="row font-color">
+                                <div class="row row_style">
+                                    <div class="col-lg-2">
+                                        <img class="rounded-circle contact_style"
+                                             src="https://img.icons8.com/ios/50/000000/visit.png"/>
+                                    </div>
+                                    <div class="col-lg-10">
+                                        <strong>Address</strong>
+                                        <br>
+                                        3 Smartiqa building, Fifth Settlement,
+                                        <br>
+                                        New Cairo, Egypt
+                                    </div>
+                                </div>
+                                <div class="row row_style">
+                                    <div class="col-lg-2">
+                                        <img class="rounded-circle contact_style"
+                                             src="https://img.icons8.com/ios/50/000000/send-mass-email.png"/>
+                                    </div>
+                                    <div class="col-lg-10">
+                                        <strong>Email</strong>
+                                        <br>
+                                        <a href="mailto:smartiqa@gmail.com">smartiqa@gmail.com</a>
+                                    </div>
+                                </div>
+                                <div class="row row_style">
+                                    <div class="col-lg-2">
+                                        <img class="rounded-circle contact_style"
+                                             src="https://img.icons8.com/ios/50/000000/phone.png"/>
+                                    </div>
+                                    <div class="col-lg-10">
+                                        <strong>Phone</strong>
+                                        <br>
+                                        +20 111 256 1721
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-5">
+                    <div class="carousel slide" data-ride="carousel">
+                        <div class="carousel-inner">
+                            <div class="carousel-item active">
+                                <div id="third_image" style="height: 400px;margin: 0"></div>
+                                <div class="carousel-caption row justify-content-md-center">
+                                    <h1 class="text-capitalize rounded col-lg-10"
+                                        style="position: relative;bottom: 40px;padding-bottom:5px;
+                                box-shadow: 5px 5px 5px white;font-family: 'Abril Fatface', sans-serif">
+                                        Contact Us</h1>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

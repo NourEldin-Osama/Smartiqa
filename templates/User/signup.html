@@ -1,0 +1,214 @@
+{% extends 'layouts/base.html' %}
+{% block head %}
+    <style>
+        .font-style {
+            font-family: 'Abril Fatface', sans-serif;
+        }
+
+
+        .btn-default {
+            color: #fff;
+            text-transform: uppercase;
+            font-family: sans-serif;
+            box-sizing: border-box;
+            background: linear-gradient(90deg, orange, orange, yellow, white, grey, orange, orange, yellow);
+            background-size: 400%;
+            border-radius: 30px;
+        }
+
+        .btn-default:hover {
+            animation: animate 8s linear infinite;
+        }
+
+        @keyframes animate {
+            0% {
+                background-position: 0%;
+            }
+            100% {
+                background-position: 400%;
+            }
+        }
+
+        .btn-default:before {
+            content: "";
+            background: linear-gradient(45deg, #f15523, #ef3224, #7c3697);
+            background-size: 400%;
+            border-radius: 40px;
+            opacity: 0;
+        }
+
+        .btn-default:hover:before {
+            filter: blur(20px);
+            opacity: 1;
+            animation: animate 8s linear infinite;
+        }
+
+        .form-floating > label {
+            top: -8px;
+            color: black;
+        }
+
+        .form-floating > .form-control {
+            height: calc(2.5rem + 2px);
+        }
+    </style>
+{% endblock head %}
+{% block content %}
+    <div class="row justify-content-center" style="margin-top: 10px;">
+        <div class="col-lg-5">
+            {#            border: 0.1px solid orange#}
+            <div class="row user-form-card" style="">
+                <div class="col-lg-12 zero-padding" style="">
+                    <div class="d-flex justify-content-center align-items-center text-capitalize font-style h1 text-light"
+                         style="background-color: orange; height: 70px;">
+                        Welcome to smartiqa family
+                    </div>
+                    <div class="d-flex justify-content-center align-items-center text-capitalize font-style h2"
+                         style="height: 50px;">
+                        Please Sign up
+                    </div>
+                    <div style="padding: 0 40px;">
+                        <form action="{% url "student_signup" %}" method="post" id="form" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="col">
+                                    <div class="form-floating mb-3">
+                                        <input type="text" class="form-control" id="first_name"
+                                               name="first_name" autocomplete="given-name" placeholder="First Name"
+                                               required>
+                                        <label for="first_name" class="text-capitalize">First name</label>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="form-floating mb-3">
+                                        <input type="text" aria-label="Last name" class="form-control" id="last_name"
+                                               name="last_name" autocomplete="family-name" placeholder="Last Name"
+                                               required>
+                                        <label for="last_name" class="text-capitalize">Last name</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <div class="form-floating mb-3">
+                                        <input type="text" class="form-control" placeholder="Username" id="username"
+                                               name="username" autocomplete="username" required>
+                                        <label for="username" class="text-capitalize">Username</label>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="form-floating mb-3">
+                                        <input type="tel" class="form-control" id="phone_number" name="phone_number"
+                                               autocomplete="tel" placeholder="Phone Number" required>
+                                        <label class="text-capitalize">Phone Number</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input type="email" class="form-control" placeholder="Email" id="email"
+                                       name="email" autocomplete="email" required>
+                                <label for="email" class="text-capitalize">Email</label>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <div class="form-floating mb-3">
+                                        <input type="password" class="form-control" placeholder="Password" id="password"
+                                               name="password" autocomplete="new-password" required>
+                                        <label class="text-capitalize">Password</label>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="form-floating mb-3">
+                                        <input type="password" class="form-control" placeholder="Retype Password"
+                                               id="retyped_password" name="retyped_password" autocomplete="new-password"
+                                               required>
+                                        <label class="text-capitalize">Confirm Password</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <div class="mb-3">
+                                        <label>Gender: </label>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="gender" id="Male"
+                                                   value="M">
+                                            <label class="form-check-label" for="Male">Male</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="gender" id="Female"
+                                                   value="F">
+                                            <label class="form-check-label" for="Female">Female</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="input-group mb-3">
+                                        <label class="me-3 d-flex justify-content-center align-items-center">Birthdate: </label>
+                                        <input type="date" name="birthdate" class="vDateField" size="10" id="birthdate"
+                                               placeholder="Birthdate" autocomplete="bday" required>
+                                        <div class="input-group-text">
+                                            <label class="fas fa-calendar"></label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <div class="input-group">
+                                    <label class="me-3 d-flex justify-content-center align-items-center">Major </label>
+                                    <select class="form-select form-select-md"
+                                            aria-label=".form-select-lg example" id="major" name="major"
+                                            form="form">
+                                        <option value="Data Science - BSc" selected>Data Science - BSc</option>
+                                        <option value="Computer Science - BSc">Computer Science - BSc</option>
+                                        <option value="Computer Engineering - BSc">Computer Engineering - BSc
+                                        </option>
+                                        <option value="Electronics and Communications Engineering - BSc">
+                                            Electronics and Communications Engineering - BSc
+                                        </option>
+                                        <option value="Mechanical Engineering - BSc">Mechanical Engineering - BSc
+                                        </option>
+                                        <option value="Construction Engineering - BSc">
+                                            Construction Engineering - BSc
+                                        </option>
+                                        <option value="Actuarial Science - BSc">Actuarial Science - BSc</option>
+                                        <option value="Architectural Engineering - BSc">
+                                            Architectural Engineering - BSc
+                                        </option>
+                                        <option value="Petroleum Engineering - BSc">Petroleum Engineering - BSc
+                                        </option>
+                                        <option value="Physics - BS">Physics - BS</option>
+                                        <option value="Mathematics - BSc">Mathematics - BSc</option>
+                                        <option value="Biology - BSc">Biology - BSc</option>
+                                        <option value="Chemistry - BSc">Chemistry - BSc</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <input class="mt-1" type="file" name="picture" accept="image/*" capture>
+                            <div class="row justify-content-between mt-3">
+                                <div class="col-4">
+                                    <div class="icheck-primary">
+                                        <input type="checkbox" id="agreeTerms" name="terms" value="agree" required>
+                                        <label for="agreeTerms">
+                                            I agree to the <a href="#">terms</a>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-5 text-end">
+                                    <a href="{% url "login" %}">I already have an Account</a>
+                                </div>
+                            </div>
+                            <div class="text-center mb-3">
+                                <button class="w-40 btn btn-lg ck btn-default" type="submit"
+                                        style="color: white" value="Sign up">
+                                    Sign Up
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock content %}

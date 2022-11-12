@@ -1,0 +1,6 @@
+Django
+Pillow
+django-allauth
+djangorestframework
+django-filter
+markdown

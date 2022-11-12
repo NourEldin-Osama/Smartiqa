@@ -1,0 +1,115 @@
+<style>
+    @media all and (min-width: 992px) {
+        .navbar .nav-item .dropdown-menu {
+            display: none;
+        }
+
+        .navbar .nav-item:hover .nav-link {
+        }
+
+        .navbar .nav-item:hover .dropdown-menu {
+            display: block;
+        }
+
+        .navbar .nav-item .dropdown-menu {
+            margin-top: 0;
+        }
+    }
+
+    .icon-style {
+        color: orange;
+    }
+
+</style>
+{% load custom_tags %}
+<nav class="navbar navbar-expand-xxl fixed-top navbar-dark bg-dark rounded" style="width: 90%;margin-left: 5%;">
+    <div class="container-fluid">
+        <a class="navbar-brand active" href="{% url "home" %}"
+           style="font-family:Abril Fatface,serif ;font-size:x-large">
+            <img class="rounded-circle" src="/media/Untitled-removebg-preview.png"
+                 style="width: 50px;height: 50px;background-color: aliceblue;margin-bottom: 5px;">
+            Smartiqa
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#main_nav"
+                aria-controls="main_nav" aria-expanded="false">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="main_nav">
+            <ul class="navbar-nav me-auto mb-2 mb-xl-0">
+                <li class="nav-item">
+                    <a class="nav-link {% active request.path "home" %}" aria-current="page" href="{% url "home" %}">
+                        <i class='fas fa-home icon-style'></i> Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% active request.path "home" %}" href="{% url "home" %}#About_US">
+                        <i class='fa-solid fa-circle-info icon-style'></i> About</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% active request.path "home" %}" href="{% url "home" %}#Contact_Us">
+                        <i class='fa fa-comment icon-style'></i> Contacts</a>
+                </li>
+            </ul>
+        </div>
+        <ul class="navbar-nav">
+            {% if user.is_authenticated %}
+                {% load socialaccount %}
+                {% get_social_accounts user as accounts %}
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="" role="button" data-bs-toggle="dropdown">
+                        {% if user.picture %}
+                            <img src="{{ user.picture.url }}"
+                                 class="rounded-circle me-2" height="40"
+                                 loading="lazy"
+                                 style="background-color:white;"/>
+                        {% elif accounts.google.0.extra_data.picture %}
+                            <img src="{{ accounts.google.0.extra_data.picture }}"
+                                 class="rounded-circle me-2" height="40"
+                                 loading="lazy"
+                                 style="background-color:white;"/>
+                        {% else %}
+                            <img src="https://img.icons8.com/material/48/000000/user-male-circle--v1.png"
+                                 class="rounded-circle me-2" height="40"
+                                 loading="lazy"
+                                 style="background-color:white;"/>
+                        {% endif %}
+                        <strong class="text-capitalize">{{ user.get_username }}</strong>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end end-0">
+                        <li><a class="dropdown-item" href="{% url "profile" user.get_username %}">
+                            <i class='fa fa-user icon-style'></i> Profile</a></li>
+                        <li><a class="dropdown-item" href="{% url "settings" %}">
+                            <i class="fa fa-gear icon-style"></i> Settings</a></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="{% url "Logout" %}">
+                                <i class='fa fa-sign-out icon-style'></i> <strong>Log Out</strong>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            {% else %}
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="dropdown" data-bs-toggle="dropdown"><i
+                            class='fa fa-user-plus icon-style'></i> Sign Up</a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item "
+                               href="{% url "student_signup" %}">As a Student</a></li>
+                        <li><a class="dropdown-item "
+                               href="{% url "instructor_signup" %}">As an Instructor</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="dropdown" data-bs-toggle="dropdown">
+                        <i class='fa fa-sign-in icon-style'></i> Login</a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item " href="{% url "login" %}">
+                            As User</a></li>
+                        <li><a class="dropdown-item" href="{% url "admin:login" %}">As Admin</a></li>
+                    </ul>
+                </li>
+            {% endif %}
+        </ul>
+    </div>
+</nav>

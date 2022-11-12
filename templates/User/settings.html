@@ -1,0 +1,239 @@
+{% extends 'layouts/base.html' %}
+{% block head %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-social/5.1.1/bootstrap-social.css"
+          integrity="sha512-sopmFEmRVsWt542K+yzH3FQ1KJfdosOJG+bGLs9ZJT07b/3gUxRA9ICuJg2JtoZ9WeknAUuwJ0ggnmrV1YL6kQ=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
+    <style>
+        .fa-google {
+            background: conic-gradient(from -45deg, #ea4335 110deg, #4285f4 90deg 180deg, #34a853 180deg 270deg, #fbbc05 270deg) 73% 55%/150% 150% no-repeat;
+            -webkit-background-clip: text;
+            color: transparent;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .social_button_style {
+            padding: 5px;
+        }
+    </style>
+{% endblock head %}
+{% block content %}
+    <div class="row justify-content-center" style="margin-top: 100px;">
+        <div class="col-lg-5">
+            <div class="row user-form-card" style="height: 335px">
+                <div class="col-lg-12 zero-padding" style="">
+                    <div class="d-flex justify-content-center align-items-center text-capitalize font-style h1 text-light"
+                         style="background-color:orange;height: 70px;top: -1px;position: relative;">
+                        Settings
+                    </div>
+                    <div style="padding: 0 40px;">
+                        <div class="row">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-md-1"></div>
+                                    <div class="col-md-4">
+                                        <div class="input-group my-4">
+                                            <div class="input-group-text">
+                                                <input class="form-check-input" type="radio" id="Light" name="Theme"
+                                                       value="Light">
+                                            </div>
+                                            <label class="input-group-text col rounded-end" for="Light">Light
+                                                mode</label><br>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2"></div>
+                                    <div class="col-md-4">
+                                        <div class="input-group my-4">
+                                            <div class="input-group-text">
+                                                <input class="form-check-input" type="radio" id="Dark" name="Theme"
+                                                       value="Dark">
+                                            </div>
+                                            <label class="input-group-text col rounded-end" for="Dark">Dark mode</label><br>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            {% load socialaccount %}
+                            {% get_social_accounts user as accounts %}
+                            <div class="col-lg-12">
+                                <div class="row mb-3 text-center justify-content-between">
+                                    <div class="col-lg-6 zero-padding">
+                                        {% if accounts.google %}
+                                            <form action="{% provider_login_url 'google' process="connect" %}"
+                                                  method="post"
+                                                  class="social_button_style">
+                                                {% csrf_token %}
+                                                <button class="btn btn-block btn-social btn btn-reddit col-lg-12"
+                                                        type="submit" disabled>
+                                            <span class="fa-brands fa-google fa_with_bg"
+                                                  style="background-color: white"></span>
+                                                    You are already Connected
+                                                </button>
+                                            </form>
+                                        {% else %}
+                                            <form action="{% provider_login_url 'google' process="connect" %}"
+                                                  method="post"
+                                                  class="social_button_style">
+                                                {% csrf_token %}
+                                                <button class="btn btn-block btn-social btn btn-reddit col-lg-12"
+                                                        type="submit">
+                                            <span class="fa-brands fa-google fa_with_bg"
+                                                  style="background-color: white"></span>
+                                                    Connect with Google
+                                                </button>
+                                            </form>
+                                        {% endif %}
+                                        {% if accounts.github %}
+                                            <form action="{% provider_login_url "github" process="connect" %}"
+                                                  method="post"
+                                                  class="social_button_style">
+                                                {% csrf_token %}
+                                                <button class="btn btn-block btn-social btn btn-linkedin col-lg-12 disabled"
+                                                        type="submit">
+                                                    <span class="fa-brands fa-linkedin"></span>
+                                                    You are already Connected
+                                                </button>
+                                            </form>
+                                        {% else %}
+                                            <form action="{% provider_login_url "github" process="connect" %}"
+                                                  method="post"
+                                                  class="social_button_style">
+                                                {% csrf_token %}
+                                                <button class="btn btn-block btn-social btn btn-linkedin col-lg-12"
+                                                        type="submit">
+                                                    <span class="fa-brands fa-linkedin"></span>
+                                                    Connect with LinkedIn
+                                                </button>
+                                            </form>
+                                        {% endif %}
+                                        {% if accounts.twitter %}
+                                            <form action="{% provider_login_url "twitter" process="connect" %}"
+                                                  method="post"
+                                                  class="social_button_style">
+                                                {% csrf_token %}
+                                                <button class="btn btn-block btn-social btn btn-twitter col-lg-12 disabled"
+                                                        type="submit">
+                                                    <span class="fa-brands fa-twitter"></span>
+                                                    You are already Connected
+                                                </button>
+                                            </form>
+                                        {% else %}
+                                            <form action="{% provider_login_url "twitter" process="connect" %}"
+                                                  method="post"
+                                                  class="social_button_style">
+                                                {% csrf_token %}
+                                                <button class="btn btn-block btn-social btn btn-twitter col-lg-12"
+                                                        type="submit">
+                                                    <span class="fa-brands fa-twitter"></span>
+                                                    Connect with Twitter
+                                                </button>
+                                            </form>
+                                        {% endif %}
+
+                                    </div>
+                                    <div class="col-lg-6 zero-padding">
+                                        {% if accounts.facebook %}
+                                            <form action="{% provider_login_url "facebook" process="connect" method="oauth2" %}"
+                                                  method="post"
+                                                  class="social_button_style">
+                                                {% csrf_token %}
+                                                <button class="btn btn-block btn-social btn btn-facebook col-lg-12 disabled"
+                                                        type="submit">
+                                                    <span class="fa-brands fa-facebook-f"></span>
+                                                    You are already Connected
+                                                </button>
+                                            </form>
+                                        {% else %}
+                                            <form action="{% provider_login_url "facebook" process="connect" method="oauth2" %}"
+                                                  method="post"
+                                                  class="social_button_style">
+                                                {% csrf_token %}
+                                                <button class="btn btn-block btn-social btn btn-facebook col-lg-12"
+                                                        type="submit">
+                                                    <span class="fa-brands fa-facebook-f"></span>
+                                                    Connect with Facebook
+                                                </button>
+                                            </form>
+                                        {% endif %}
+                                        {% if accounts.github %}
+                                            <form action="{% provider_login_url "github" process="connect" %}"
+                                                  method="post"
+                                                  class="social_button_style">
+                                                {% csrf_token %}
+                                                <button class="btn btn-block btn-social btn btn-github col-lg-12 disabled"
+                                                        type="submit">
+                                                    <span class="fa-brands fa-github"></span>
+                                                    You are already Connected
+                                                </button>
+                                            </form>
+                                        {% else %}
+                                            <form action="{% provider_login_url "github" process="connect" %}"
+                                                  method="post"
+                                                  class="social_button_style">
+                                                {% csrf_token %}
+                                                <button class="btn btn-block btn-social btn btn-github col-lg-12"
+                                                        type="submit">
+                                                    <span class="fa-brands fa-github"></span>
+                                                    Connect with Github
+                                                </button>
+                                            </form>
+                                        {% endif %}
+                                        {% if accounts.microsoft %}
+                                            <form action="{% provider_login_url "microsoft" process="connect" %}"
+                                                  method="post"
+                                                  class="social_button_style">
+                                                {% csrf_token %}
+                                                <button class="btn btn-block btn-social btn btn-microsoft col-lg-12 disabled"
+                                                        type="submit">
+                                                    <span class="fa-brands fa-microsoft"></span>
+                                                    You are already Connected
+                                                </button>
+                                            </form>
+                                        {% else %}
+                                            <form action="{% provider_login_url "microsoft" process="connect" %}"
+                                                  method="post"
+                                                  class="social_button_style">
+                                                {% csrf_token %}
+                                                <button class="btn btn-block btn-social btn btn-microsoft col-lg-12"
+                                                        type="submit">
+                                                    <span class="fa-brands fa-microsoft"></span>
+                                                    Connect with Microsoft
+                                                </button>
+                                            </form>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        $(function () {
+            $.ajax({
+                url: "{% url "get_theme" %}",
+                method: "GET",
+                contentType: "application/json;charset=utf-8",
+                dataType: "json",
+            }).done(function (result) {
+                $('input[type=radio][name=Theme][value=' + result["theme_value"] + ']').prop("checked", true);
+            });
+        });
+        // when choose another radio button change value in cookies
+        $('input[type=radio][name=Theme]').change(function () {
+            let chosen_theme = this.value;
+            $.ajax({
+                url: '{% url "set_theme" %}' + chosen_theme,
+                method: "GET",
+                contentType: "application/json;charset=utf-8",
+                dataType: "json",
+                success: function (result) {
+                    location.reload(true);
+                }
+            });
+        });
+    </script>
+{% endblock content %}

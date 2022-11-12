@@ -1,0 +1,15 @@
+{% if success %}
+    <success class="alert alert-success alert-dismissible fade show d-flex justify-content-center" role="alert">
+        {{ success }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label=""></button>
+    </success>
+{% endif %}
+{% if messages %}
+    {% for message in messages %}
+        <success class="alert alert-success alert-dismissible fade show d-flex justify-content-center" role="alert"
+                 data-filter-title="{{ message.tags }}">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label=""></button>
+        </success>
+    {% endfor %}
+{% endif %}

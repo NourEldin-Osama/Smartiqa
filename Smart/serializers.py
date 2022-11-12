@@ -1,0 +1,9 @@
+from rest_framework import serializers
+
+from Smart.models import User
+
+
+class UserSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = User
+        fields = ['username', 'email']

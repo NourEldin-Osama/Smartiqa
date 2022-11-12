@@ -1,0 +1,15 @@
+{% extends 'layouts/base.html' %}
+{% block content %}
+    {{ user.get_username }}
+    <br>
+    {{ instructor.user.user_name }}
+    <br>
+    {{ instructor.phone_number }}
+    {{ instructor.bio }}
+    {{ instructor.job_title }}
+    {{ instructor.experience }}
+    {{ instructor.next_course_start }}
+    {{ instructor.next_course_end }}
+    {{ instructor.course_duration }}
+    {{ instructor.course_location }}
+{% endblock content %}
