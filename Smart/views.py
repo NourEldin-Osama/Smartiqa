@@ -146,11 +146,14 @@ def user_profile(request, user_name):
     context = {'title': 'Profile - Smartiqa'}
     if user_name == request.user.username:
         context['available_majors'] = AVAILABLE_MAJORS.copy()
-        context['available_majors'].remove(request.user.major)
+        try:
+            context['available_majors'].remove(request.user.major)
+        except ValueError:
+            pass
         if request.user.is_instructor:
             instructor = Instructor.objects.get(user=request.user.id)
-            context["instructor"] = {'bio': instructor.bio,
-                                     'job_title': instructor.job_title, 'experience': instructor.experience}
+            context["instructor"] = {'bio': instructor.bio, 'job_title': instructor.job_title,
+                                     'experience': instructor.experience}
         return render(request, 'User/profile.html', context)
     else:
         context['error'] = "You Can't Show another user info"
@@ -163,7 +166,10 @@ def edit_user_profile(request, user_name):
     if request.method == "POST":
         if user_name == request.user.username:
             context['available_majors'] = AVAILABLE_MAJORS.copy()
-            context['available_majors'].remove(request.user.major)
+            try:
+                context['available_majors'].remove(request.user.major)
+            except ValueError:
+                pass
             user = User.objects.get(id=request.user.id)
 
             if request.POST.get("picture", True):
@@ -275,4 +281,3 @@ def instructor_profile(request, user_name):
     except User.DoesNotExist:
         context['error'] = 'This instructor does not exist!'
     return render(request, 'Instructor/profile.html', context)
-

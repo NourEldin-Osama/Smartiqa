@@ -34,7 +34,8 @@
                                         <div class="input-group my-4">
                                             <div class="input-group-text">
                                                 <input class="form-check-input" type="radio" id="Light" name="Theme"
-                                                       value="Light">
+                                                       value="Light"
+                                                       {% if request.COOKIES.Theme == "Light" %}checked{% endif %}>
                                             </div>
                                             <label class="input-group-text col rounded-end" for="Light">Light
                                                 mode</label><br>
@@ -45,7 +46,8 @@
                                         <div class="input-group my-4">
                                             <div class="input-group-text">
                                                 <input class="form-check-input" type="radio" id="Dark" name="Theme"
-                                                       value="Dark">
+                                                       value="Dark"
+                                                       {% if request.COOKIES.Theme == "Dark" %}checked{% endif %}>
                                             </div>
                                             <label class="input-group-text col rounded-end" for="Dark">Dark mode</label><br>
                                         </div>
@@ -212,27 +214,17 @@
         </div>
     </div>
     <script>
-        $(function () {
-            $.ajax({
-                url: "{% url "get_theme" %}",
-                method: "GET",
-                contentType: "application/json;charset=utf-8",
-                dataType: "json",
-            }).done(function (result) {
-                $('input[type=radio][name=Theme][value=' + result["theme_value"] + ']').prop("checked", true);
-            });
-        });
         // when choose another radio button change value in cookies
         $('input[type=radio][name=Theme]').change(function () {
             let chosen_theme = this.value;
             $.ajax({
                 url: '{% url "set_theme" %}' + chosen_theme,
-                method: "GET",
+                method: "POST",
                 contentType: "application/json;charset=utf-8",
                 dataType: "json",
-                success: function (result) {
-                    location.reload(true);
-                }
+                headers: {"X-CSRFToken": "{{ csrf_token }}"},
+            }).done(function () {
+                location.reload();
             });
         });
     </script>
