@@ -8,9 +8,11 @@
         $(function () {
             $.ajax({
                 url: "{% url "get_theme" %}",
-                method: "GET",
+                method: "POST",
                 contentType: "application/json;charset=utf-8",
                 dataType: "json",
+                headers: {"X-CSRFToken": "{{ csrf_token }}"},
+                mode: 'same-origin' // Do not send CSRF token to another domain.
             })
         });
     </script>

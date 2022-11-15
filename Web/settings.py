@@ -40,7 +40,7 @@ INSTALLED_APPS = ['django.contrib.admin', 'django.contrib.auth', 'django.contrib
                   'allauth.socialaccount.providers.google', 'allauth.socialaccount.providers.linkedin_oauth2',
                   'allauth.socialaccount.providers.facebook', 'allauth.socialaccount.providers.github',
                   'allauth.socialaccount.providers.twitter', 'allauth.socialaccount.providers.microsoft',
-                  'rest_framework',
+                  'rest_framework', 'django_tables2'
                   ]
 SITE_ID = 2
 
@@ -144,3 +144,5 @@ ACCOUNT_AUTHENTICATION_METHOD = 'email'
 SOCIALACCOUNT_ADAPTER = "Web.users.adapter.SocialAccountAdapter"
 LOGIN_REDIRECT_URL = 'home'
 LOGIN_URL = 'login'
+
+DJANGO_TABLES2_TEMPLATE = "django_tables2/bootstrap4.html"

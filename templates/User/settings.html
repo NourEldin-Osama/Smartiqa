@@ -223,6 +223,7 @@
                 contentType: "application/json;charset=utf-8",
                 dataType: "json",
                 headers: {"X-CSRFToken": "{{ csrf_token }}"},
+                mode: 'same-origin' // Do not send CSRF token to another domain.
             }).done(function () {
                 location.reload();
             });

@@ -8,13 +8,14 @@ from django.contrib.auth.decorators import user_passes_test
 from django.contrib.auth.hashers import make_password, check_password
 from django.shortcuts import redirect, render
 from django.views.decorators.http import require_http_methods
+from django_tables2 import RequestConfig
 from rest_framework import permissions
 from rest_framework import viewsets
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
-from Smart.models import User, Instructor
 from Smart.serializers import UserSerializer
+from Smart.tables import *
 
 default_theme = 'Light'
 AVAILABLE_MAJORS = ["Data Science - BSc", "Computer Science - BSc", "Computer Engineering - BSc",
@@ -236,7 +237,7 @@ def settings(request):
     return render(request, 'User/settings.html', context)
 
 
-@api_view(['GET', 'POST'])
+@api_view(['POST'])
 def set_theme(request, theme_value=''):
     response = Response({'message': 'Success'}, status=200)
     if 'Theme' not in request.COOKIES:
@@ -248,7 +249,7 @@ def set_theme(request, theme_value=''):
     return response
 
 
-@api_view(['GET', 'POST'])
+@api_view(['POST'])
 def get_theme(request):
     if 'Theme' not in request.COOKIES:
         response = Response({'theme_value': default_theme}, status=200)
@@ -276,8 +277,19 @@ def instructor_profile(request, user_name):
             instructor = Instructor.objects.get(user=user)
             context["instructor"] = {'bio': instructor.bio,
                                      'job_title': instructor.job_title, 'experience': instructor.experience}
+            context["instructor_data"] = {'name': user, 'picture': user.picture}
         else:
-            print("This instructor does not exist!")
+            messages.error(request, 'This instructor does not exist!')
+            return redirect('view_instructors')
     except User.DoesNotExist:
-        context['error'] = 'This instructor does not exist!'
+        messages.error(request, 'This instructor does not exist!')
+        return redirect('view_instructors')
     return render(request, 'Instructor/profile.html', context)
+
+
+def view_instructors(request):
+    context = {"title": "Instructors"}
+    table = InstructorTable(Instructor.objects.all())
+    RequestConfig(request).configure(table)
+    context['table'] = table
+    return render(request, 'Instructor/view.html', context)

@@ -4,3 +4,14 @@
     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label=""></button>
 </error>
 {% endif %}
+{% if messages %}
+    {% for message in messages %}
+        {% if message.tags == "error" %}
+            <error class="alert alert-danger alert-dismissible fade show d-flex justify-content-center" role="alert"
+                     data-filter-title="{{ message.tags }}">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label=""></button>
+            </error>
+        {% endif %}
+    {% endfor %}
+{% endif %}

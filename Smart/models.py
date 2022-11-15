@@ -15,7 +15,7 @@ class User(AbstractUser):
     major = models.CharField(max_length=10, null=True, default="")
 
     def __str__(self):
-        string_name = (self.first_name + " " + self.last_name).strip()
+        string_name = self.get_full_name()
         if string_name == "":
             string_name = self.username.strip()
         return string_name
@@ -28,7 +28,7 @@ class Instructor(models.Model):
     experience = models.CharField(max_length=1000, null=True, default="")
 
     def __str__(self):
-        string_name = (self.user.first_name + " " + self.user.last_name).strip()
+        string_name = self.user.get_full_name()
         if string_name == "":
             string_name = self.user.username.strip()
         return string_name
@@ -45,6 +45,13 @@ class Course(models.Model):
     start = models.DateField(blank=True, null=True)
     end = models.DateField(blank=True, null=True)
     location = models.CharField(max_length=1000, null=True, default="")
+    description = models.CharField(max_length=1000, null=True, default="")
+    beginner, intermediate, advanced, professional, expert = 'B', 'I', 'A', 'P', 'E'
+    TEMP_CHOICES = (
+        (beginner, 'Beginner'), (intermediate, 'Intermediate'), (advanced, 'Advanced'), (professional, 'Professional'),
+        (expert, 'Expert'))
+    gender = models.CharField(max_length=1, choices=TEMP_CHOICES, default=beginner)
+    link = models.CharField(max_length=2000, null=True, default="")
 
     def __str__(self):
         return self.name.strip()
@@ -58,7 +65,7 @@ class Instructor_Courses(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
 
     def __str__(self):
-        string_name = (self.instructor.user.first_name + " " + self.instructor.user.last_name).strip()
+        string_name = self.instructor.user.get_full_name()
         if string_name == "":
             string_name = self.instructor.user.username.strip()
         return string_name + " (" + self.course.name.strip() + ")"

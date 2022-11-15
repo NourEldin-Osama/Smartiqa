@@ -4,3 +4,4 @@ django-allauth
 djangorestframework
 django-filter
 markdown
+django-tables2

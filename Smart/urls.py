@@ -15,6 +15,6 @@ urlpatterns = [
     path('set_theme/', views.set_theme, name='set_theme'),
     path('set_theme/<str:theme_value>', views.set_theme, name='set_theme'),
     path('get_theme', views.get_theme, name='get_theme'),
+    path('instructors', views.view_instructors, name='view_instructors'),
     path('instructor/<str:user_name>', views.instructor_profile, name='instructor'),
-
 ]
