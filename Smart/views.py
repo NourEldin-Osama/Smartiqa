@@ -239,7 +239,8 @@ def settings(request):
 
 
 @api_view(['POST'])
-def set_theme(request, theme_value=''):
+def set_theme(request):
+    theme_value = request.POST.get("theme_value", default_theme)
     response = Response({'message': 'Success'}, status=200)
     if not theme_value:
         response.set_cookie(key='Theme', value=default_theme, max_age=datetime.timedelta(days=365))

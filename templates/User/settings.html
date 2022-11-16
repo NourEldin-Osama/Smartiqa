@@ -218,9 +218,9 @@
         $('input[type=radio][name=Theme]').change(function () {
             let chosen_theme = this.value;
             $.ajax({
-                url: '{% url "set_theme" %}' + chosen_theme,
+                url: '{% url "set_theme" %}',
                 method: "POST",
-                contentType: "application/json;charset=utf-8",
+                data: {"theme_value": chosen_theme},
                 dataType: "json",
                 headers: {"X-CSRFToken": "{{ csrf_token }}"},
                 mode: 'same-origin' // Do not send CSRF token to another domain.
