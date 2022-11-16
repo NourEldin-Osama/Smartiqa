@@ -18,6 +18,7 @@ from Smart.serializers import UserSerializer
 from Smart.tables import *
 
 default_theme = 'Light'
+AVAILABLE_THEMES = ["Light", "Dark"]
 AVAILABLE_MAJORS = ["Data Science - BSc", "Computer Science - BSc", "Computer Engineering - BSc",
                     "Electronics and Communications Engineering - BSc",
                     "Mechanical Engineering - BSc",
@@ -240,11 +241,9 @@ def settings(request):
 @api_view(['POST'])
 def set_theme(request, theme_value=''):
     response = Response({'message': 'Success'}, status=200)
-    if 'Theme' not in request.COOKIES:
-        response.set_cookie(key='Theme', value=theme_value, max_age=datetime.timedelta(days=365))
-    elif not theme_value:
+    if not theme_value:
         response.set_cookie(key='Theme', value=default_theme, max_age=datetime.timedelta(days=365))
-    else:
+    elif theme_value in AVAILABLE_THEMES:
         response.set_cookie(key='Theme', value=theme_value, max_age=datetime.timedelta(days=365))
     return response
 
