@@ -3,8 +3,8 @@ import django_tables2 as tables
 from .models import *
 
 ATTRIBUTES = {"class": "table table-striped dt-responsive table-hover table-bordered",
-              "thead": {"class": "text-capitalize"},
-              "tbody": {"class": "table-group-divider"},
+              "thead": {"class": "text-capitalize custom-table-head"},
+              "tbody": {"class": "table-group-divider custom-table-body"},
               "th": {"class": ""}}
 
 
@@ -16,10 +16,16 @@ class UserTable(tables.Table):
 
 
 class InstructorTable(tables.Table):
+    user = tables.Column(accessor='user', verbose_name="full name")
+    username = tables.URLColumn(accessor='user.username', verbose_name="username")
+    major = tables.Column(accessor='user.major', verbose_name="major")
+
     class Meta:
         model = Instructor
         attrs = ATTRIBUTES
         orderable = False
+        fields = ('user', 'job_title', 'username', 'major')
+        sequence = ('user', 'job_title', 'username', 'major')
 
 
 class CourseTable(tables.Table):

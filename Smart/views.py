@@ -286,7 +286,7 @@ def instructor_profile(request, user_name):
 
 def view_instructors(request):
     context = {"title": "Instructors"}
-    table = InstructorTable(Instructor.objects.all())
+    table = InstructorTable(Instructor.objects.select_related('user').all())
     RequestConfig(request).configure(table)
     context['table'] = table
     return render(request, 'Instructor/view.html', context)
