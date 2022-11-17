@@ -252,11 +252,11 @@ def set_theme(request):
 @api_view(['POST'])
 def get_theme(request):
     if 'Theme' not in request.COOKIES:
-        response = Response({'theme_value': default_theme}, status=200)
+        response = Response({'theme_value': default_theme, 'first_time': 'Y'}, status=200)
         response.set_cookie(key='Theme', value=default_theme, max_age=datetime.timedelta(days=365))
         return response
     else:
-        return Response({'theme_value': request.COOKIES['Theme']}, status=200)
+        return Response({'theme_value': request.COOKIES['Theme'], 'first_time': 'N'}, status=200)
 
 
 # Try
