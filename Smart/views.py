@@ -1,16 +1,13 @@
 import datetime
 
 from django.conf import settings
-from django.contrib import auth
-from django.contrib import messages
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth.decorators import user_passes_test
+from django.contrib import auth, messages
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.hashers import make_password, check_password
 from django.shortcuts import redirect, render
 from django.views.decorators.http import require_http_methods
 from django_tables2 import RequestConfig
-from rest_framework import permissions
-from rest_framework import viewsets
+from rest_framework import permissions, viewsets
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
@@ -251,7 +248,7 @@ def set_theme(request):
 
 @api_view(['POST'])
 def get_theme(request):
-    if 'Theme' not in request.COOKIES:
+    if 'Theme' not in request.COOKIES or request.COOKIES['Theme'] not in AVAILABLE_THEMES:
         response = Response({'theme_value': default_theme, 'first_time': 'Y'}, status=200)
         response.set_cookie(key='Theme', value=default_theme, max_age=datetime.timedelta(days=365))
         return response
