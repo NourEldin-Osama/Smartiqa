@@ -1,4 +1,5 @@
 import django_tables2 as tables
+from django_tables2 import A
 
 from .models import *
 
@@ -17,7 +18,8 @@ class UserTable(tables.Table):
 
 class InstructorTable(tables.Table):
     user = tables.Column(accessor='user', verbose_name="full name")
-    username = tables.URLColumn(accessor='user.username', verbose_name="username")
+    username = tables.Column(accessor='user__username', verbose_name="username",
+                             linkify=("instructor", [A("user__username")]))  # (viewname, args)
     major = tables.Column(accessor='user.major', verbose_name="major")
 
     class Meta:
