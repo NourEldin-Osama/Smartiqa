@@ -11,6 +11,7 @@ from rest_framework import permissions, viewsets
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
+from Smart.filters import *
 from Smart.serializers import UserSerializer
 from Smart.tables import *
 
@@ -286,7 +287,13 @@ def instructor_profile(request, user_name):
 
 def view_instructors(request):
     context = {"title": "Instructors"}
-    table = InstructorTable(Instructor.objects.select_related('user').all())
-    RequestConfig(request).configure(table)
+    data = Instructor.objects.select_related('user').all()
+    filtered_data = InstructorFilter(request.GET, queryset=data)
+    print(data)
+    print(request.GET)
+    print(filtered_data.qs)
+    table = InstructorTable(filtered_data.qs)
+    RequestConfig(request, paginate={"per_page": 12}).configure(table)
     context['table'] = table
+    context['filter'] = filtered_data
     return render(request, 'Instructor/view.html', context)

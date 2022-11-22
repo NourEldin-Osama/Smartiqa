@@ -19,8 +19,8 @@ class UserTable(tables.Table):
 
 class InstructorTable(tables.Table):
     user = tables.Column(accessor='user', verbose_name="full name")
-    username = tables.Column(accessor='user.username', verbose_name="username",
-                             linkify=("instructor", [A("user.username")]))  # (viewname, args)
+    username = tables.Column(accessor='user__username', verbose_name="username",
+                             linkify=("instructor", [A("user__username")]))  # (viewname, args)
     major = tables.Column(accessor='user.major', verbose_name="major")
 
     def order_user(self, queryset, is_descending):

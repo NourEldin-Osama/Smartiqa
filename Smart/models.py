@@ -23,9 +23,9 @@ class User(AbstractUser):
 
 class Instructor(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
-    bio = models.CharField(max_length=1000, null=True, default="")
+    bio = models.TextField(null=True, default="")
     job_title = models.CharField(max_length=255, null=True, default="")
-    experience = models.CharField(max_length=1000, null=True, default="")
+    experience = models.TextField(null=True, default="")
 
     def __str__(self):
         string_name = self.user.get_full_name()
@@ -44,13 +44,13 @@ class Course(models.Model):
     prerequisite = models.CharField(null=True, max_length=500)
     start = models.DateField(blank=True, null=True)
     end = models.DateField(blank=True, null=True)
-    location = models.CharField(max_length=1000, null=True, default="")
-    description = models.CharField(max_length=1000, null=True, default="")
+    location = models.TextField(null=True, default="")
+    description = models.TextField(null=True, default="")
     beginner, intermediate, advanced, professional, expert = 'B', 'I', 'A', 'P', 'E'
     TEMP_CHOICES = (
         (beginner, 'Beginner'), (intermediate, 'Intermediate'), (advanced, 'Advanced'), (professional, 'Professional'),
         (expert, 'Expert'))
-    gender = models.CharField(max_length=1, choices=TEMP_CHOICES, default=beginner)
+    level = models.CharField(max_length=1, choices=TEMP_CHOICES, default=beginner)
     link = models.CharField(max_length=2000, null=True, default="")
 
     def __str__(self):
@@ -58,6 +58,25 @@ class Course(models.Model):
 
     class Meta:
         ordering = ["-name"]
+
+
+class Recommendation_Course(models.Model):
+    title = models.CharField(max_length=50, default="")
+    rating = models.DecimalField(decimal_places=2,max_digits=3)
+    organization = models.CharField(max_length=200, null=True, default="")
+    description = models.TextField(null=True, default="")
+    beginner, intermediate, advanced, professional, expert = 'B', 'I', 'A', 'P', 'E'
+    TEMP_CHOICES = (
+        (beginner, 'Beginner'), (intermediate, 'Intermediate'), (advanced, 'Advanced'), (professional, 'Professional'),
+        (expert, 'Expert'))
+    difficulty = models.CharField(max_length=1, choices=TEMP_CHOICES, default=beginner)
+    link = models.CharField(max_length=2000, null=True, default="")
+
+    def __str__(self):
+        return self.title.strip()
+
+    class Meta:
+        ordering = ["-title"]
 
 
 class Instructor_Courses(models.Model):

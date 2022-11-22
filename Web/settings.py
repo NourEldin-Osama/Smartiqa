@@ -40,7 +40,7 @@ INSTALLED_APPS = ['django.contrib.admin', 'django.contrib.auth', 'django.contrib
                   'allauth.socialaccount.providers.google', 'allauth.socialaccount.providers.linkedin_oauth2',
                   'allauth.socialaccount.providers.facebook', 'allauth.socialaccount.providers.github',
                   'allauth.socialaccount.providers.twitter', 'allauth.socialaccount.providers.microsoft',
-                  'rest_framework', 'django_tables2'
+                  'rest_framework', 'django_tables2', 'django_filters'
                   ]
 SITE_ID = 2
 
