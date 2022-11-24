@@ -1,9 +1,4 @@
 <style>
-    .small_cards {
-        background-color: #d0d0d2;
-        color: black;
-    }
-
     .zero-padding {
         padding: 0;
     }
@@ -37,7 +32,11 @@
             color: var(--bs-table-color);
             border-color: var(--bs-table-border-color);
         }
-
+        .small_cards {
+            background-color: #fff;
+            border-color: orange;
+            color: black;
+        }
 
     {% elif request.COOKIES.Theme == "Dark" %}
         body {
@@ -66,7 +65,9 @@
             color: var(--bs-table-color);
             border-color: var(--bs-table-border-color);
         }
-
-
+        .small_cards {
+            background-color: #1f1f1f;
+            color: white;
+        }
     {% endif %}
 </style>
