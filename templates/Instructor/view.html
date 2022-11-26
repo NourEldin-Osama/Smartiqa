@@ -1,10 +1,48 @@
 {% extends 'layouts/base.html' %}
 {% block head %}
+    <style>
+        .form-floating > label {
+            top: -8px;
+            color: black;
+        }
+
+        .form-floating > .form-control {
+            height: calc(2.5rem + 2px);
+        }
+
+        th > a {
+            text-decoration: none;
+        }
+    </style>
 {% endblock head %}
 {% block content %}
     {% load render_table from django_tables2 %}
     <div class="row justify-content-center">
         <div class="col-10">
+            <div class="row mt-4">
+                <form action="{% url "view_instructors" %}" method="get" id="form">
+                    <div class="row">
+                        <div class="col-4">
+                            <div class="form-floating">
+                                <input type="text" class="form-control" id="name_username" name="name_username"
+                                       autocomplete="given-name" placeholder="Name or Username"
+                                       value="{{ request.GET.name_username }}" accesskey="">
+                                <label for="name_username" class="text-capitalize">Search by name or username</label>
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <button type="submit" id='submit' class="btn btn-primary" style="height: 100%;">
+                                Search
+                            </button>
+                        </div>
+                        <div class="col-auto">
+                            <button type="button" id='reset' class="btn btn-warning" style="height: 100%;">
+                                Clear
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
             <div class="row mt-4">
                 <div class="col">
                     <div class="table-responsive">
@@ -14,4 +52,9 @@
             </div>
         </div>
     </div>
+    <script>
+        $('#reset').click(function () {
+            $('#name_username').val('');
+        });
+    </script>
 {% endblock content %}

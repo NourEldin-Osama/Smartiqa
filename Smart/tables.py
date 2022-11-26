@@ -24,10 +24,11 @@ class InstructorTable(tables.Table):
     major = tables.Column(accessor='user.major', verbose_name="major")
 
     def order_user(self, queryset, is_descending):
-        string_full_name = Trim(Lower(Concat(A("user__first_name"), Value(' '), A("user__last_name"))))
+        string_full_name = Lower(Trim(Concat(Trim(A("user__first_name")), Value(' '), Trim(A("user__last_name")))))
         string_username = Trim(Lower(A("user__username")))
-        queryset = queryset.annotate(name=Coalesce(NullIf(string_full_name, Value("")), string_username)).order_by(
-            ("-" if is_descending else "") + "name")
+        queryset = queryset.annotate(
+            name=Coalesce(NullIf(string_full_name, Value("")), string_username)
+        ).order_by(("-" if is_descending else "") + "name")
         return queryset, True
 
     class Meta:

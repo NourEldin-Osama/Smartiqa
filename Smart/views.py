@@ -289,11 +289,8 @@ def view_instructors(request):
     context = {"title": "Instructors"}
     data = Instructor.objects.select_related('user').all()
     filtered_data = InstructorFilter(request.GET, queryset=data)
-    print(data)
-    print(request.GET)
-    print(filtered_data.qs)
-    table = InstructorTable(filtered_data.qs)
-    RequestConfig(request, paginate={"per_page": 12}).configure(table)
+    table = InstructorTable(filtered_data.qs, order_by="user")
+    RequestConfig(request, paginate={"per_page": 8}).configure(table)
     context['table'] = table
     context['filter'] = filtered_data
     return render(request, 'Instructor/view.html', context)

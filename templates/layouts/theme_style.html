@@ -4,8 +4,11 @@
     }
 
     .custom-table-head {
-        background-color: orange;
-        color: white;
+        --bs-table-color: #fff;
+        --bs-table-bg: orange;
+        color: var(--bs-table-color);
+        border-color: var(--bs-table-border-color);
+        text-decoration: none;
     }
 
     {% if request.COOKIES.Theme == "Light" %}
@@ -36,6 +39,9 @@
             background-color: #fff;
             border-color: orange;
             color: black;
+        }
+        .custom-table-head {
+            --bs-table-border-color: #dfe0e1;
         }
 
     {% elif request.COOKIES.Theme == "Dark" %}
@@ -68,6 +74,9 @@
         .small_cards {
             background-color: #1f1f1f;
             color: white;
+        }
+        .custom-table-head {
+            --bs-table-border-color: #373b3e;
         }
     {% endif %}
 </style>
