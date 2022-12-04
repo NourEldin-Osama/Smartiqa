@@ -1,0 +1,9 @@
+# Ignore everything in this directory
+*
+# Except this file
+!background1.jpg
+!bg2.jpeg
+!bg3.jpeg
+!login_bg.jpg
+!Untitled-removebg-preview.png
+!.gitignore

@@ -1,0 +1,189 @@
+{% extends 'layouts/base.html' %}
+{% block head %}
+    <style>
+        body {
+            overflow-x: hidden;
+        }
+    </style>
+{% endblock head %}
+{% block content %}
+    <div class="modal fade col-3" tabindex="-1" id="TestModal" style="color: black">
+        <div class="modal-dialog modal-dialog-centered" style="--bs-modal-width:530px">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 class="modal-title text-capitalize">
+                        Result
+                    </h2>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div>
+                        <h6 class="text-capitalize">
+                            you got: {{ num_correct_answer }} correct form {{ num_questions }} question
+                        </h6>
+                        <h6 class="text-capitalize">
+                            you got: {{ correct_answer_percent }}% correct
+                        </h6>
+                    </div>
+                </div>
+                <div class="modal-footer" style="justify-content: center;">
+                    <button type="button" class="btn btn-primary btn-lg"
+                            style="
+                                    --bs-btn-bg:{{ color }};
+                                    --bs-btn-border-color:{{ color }};
+                                    --bs-btn-hover-bg: {{ color }};
+                                    --bs-btn-hover-border-color: {{ color }};
+                                    --bs-btn-active-bg:{{ color }};
+                                    --bs-btn-active-border-color:{{ color }};
+                                    --bs-btn-color: #000;
+                                    --bs-btn-hover-color: #000;
+                                    --bs-btn-active-color: #000;
+                                    ">
+                        <h1 class="text-capitalize">{{ level }}</h1>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row justify-content-center" style="margin-top: 30px;">
+        <div class="col-10">
+            <div class="row user-form-card">
+                <div class="col-lg-12 zero-padding" style="">
+                    <div class="d-flex justify-content-center align-items-center text-capitalize special-font h2 py-3"
+                         style="background-color: orange; color: white">
+                        {{ test.name }} Placement test
+                    </div>
+                    <div style="padding: 20px 40px;">
+                        <form action="{% url "submit_exam" test.id %}" method="post" id="form">
+                            {% csrf_token %}
+                            {% if questions %}
+                                <input type="hidden" name="cheated" id="cheated" value="False"
+                                       required>
+                                {% for q in questions %}
+                                    <div class="row p-2 my-3 question-style">
+                                        <div class="col">
+                                            <div class="row">
+                                                Q{{ forloop.counter }}: {{ q.q }}
+                                            </div>
+                                            {% load custom_tags %}
+                                            {% to_list q.right_ans q.wrong_ans1 q.wrong_ans2 q.wrong_ans3 as choises %}
+                                            {% shuffle choises as choises %}
+                                            {% for choice in choises %}
+                                                {% if choice %}
+                                                    <div class="form-check">
+                                                        {% if user_answers %}
+                                                            {% to_str q.id as q_id %}
+                                                            {% lookup user_answers q_id as r %}
+                                                            <input class="form-check-input" type="radio"
+                                                                   name="{{ q.id }}"
+                                                                   id="{{ choice }}" value="{{ choice }}" required
+                                                                   {% if r == choice %}checked{% endif %}>
+                                                            <label class="form-check-label"
+                                                                   for="{{ choice }}">{{ choice }}</label>
+                                                        {% else %}
+                                                            <input class="form-check-input" type="radio"
+                                                                   name="{{ q.id }}"
+                                                                   id="{{ choice }}" value="{{ choice }}" required>
+                                                            <label class="form-check-label"
+                                                                   for="{{ choice }}">{{ choice }}</label>
+                                                        {% endif %}
+                                                    </div>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                                <div class="text-center mb-3">
+                                    {% if not user_answers and not cheated %}
+                                        <button class="btn btn-lg btn-primary mx-4 col-2" type="submit"
+                                                style="color: white">
+                                            Submit
+                                        </button>
+                                    {% endif %}
+                                </div>
+                            {% else %}
+                                <h4 class="text-capitalize">SORRY, this test is not available yet.</h4>
+                                <div class="text-center mb-3">
+                                    <a class="btn btn-primary" href="{% url "tests" %}" role="button">Go Back</a>
+                                </div>
+                            {% endif %}
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% if user_answers or cheated %}
+        <script>
+            $(window).on('load', function () {
+                $('#TestModal').modal('show');
+            });
+        </script>
+    {% endif %}
+    {#  add this if there is questions only  #}
+    {% if not user_answers and questions and not cheated %}
+        <div class="d-flex" style="position: fixed; bottom: 0px; right: 0px;justify-content: end;">
+            <div class="h2 p-2" style="background-color: grey;height: 100px;">
+                Reminder
+                <div id="reminder" style="color: red">5</div>
+            </div>
+            <video autoplay playsinline id="videoElement"></video>
+        </div>
+        <canvas id="canvas" width="400" height="300"></canvas>
+        <script>
+            var canvas = document.getElementById('canvas');
+            var context = canvas.getContext('2d');
+            const video = document.querySelector("#videoElement");
+
+            video.width = 400;
+            video.height = 300;
+            if (navigator.mediaDevices.getUserMedia) {
+                navigator.mediaDevices.getUserMedia({
+                    video: true
+                })
+                    .then(function (stream) {
+                        video.srcObject = stream;
+                        video.play();
+                    })
+                    .catch(function (err0r) {
+                    });
+            }
+            var count = 0;
+            var timerId = setInterval(send_image, 1000);
+
+            function send_image() {
+                width = video.width;
+                height = video.height;
+                context.drawImage(video, 0, 0, width, height);
+                var data = canvas.toDataURL('image/jpeg', 0.5);
+                context.clearRect(0, 0, width, height);
+                $.ajax({
+                        type: 'POST',
+                        url: "https://detectfaceusermoveapi.pythonanywhere.com/detect_face_user_move",
+                        data: {
+                            'image': data,
+                            csrfmiddlewaretoken: '{{ csrf_token }}'
+                        },
+                        success: function (data) {
+                            if (data['Json'] !== "Blue") {
+                                count++;
+                                {# be in safe side and ignore first warning #}
+                                if (count !== 1) {
+                                    $("#reminder").text(parseInt($("#reminder").text()) - 1);
+                                }
+                                if (count > 5) {
+                                    $("#cheated").val('True');
+                                    $("#form").submit();
+                                }
+                                console.log(count)
+                            }
+                        },
+                        error: function (response) {
+                            console.log('Error')
+                        },
+                    }
+                );
+            }
+        </script>
+    {% endif %}
+{% endblock content %}

@@ -1,0 +1,172 @@
+{% extends 'layouts/base.html' %}
+{% block head %}
+    <style>
+        .btn-default {
+            color: #fff;
+            text-transform: uppercase;
+            font-family: sans-serif;
+            box-sizing: border-box;
+            background: linear-gradient(90deg, green, green, yellow, white, grey, green, green, yellow);
+            background-size: 400%;
+            border-radius: 30px;
+        }
+
+        .btn-default:hover {
+            animation: animate 8s linear infinite;
+        }
+
+        @keyframes animate {
+            0% {
+                background-position: 0%;
+            }
+            100% {
+                background-position: 400%;
+            }
+        }
+
+        .btn-default:before {
+            content: "";
+            background: linear-gradient(45deg, #f15523, #ef3224, #7c3697);
+            background-size: 400%;
+            border-radius: 40px;
+            opacity: 0;
+        }
+
+        .btn-default:hover:before {
+            filter: blur(20px);
+            opacity: 1;
+            animation: animate 8s linear infinite;
+        }
+
+        .profile-image {
+            position: relative;
+            bottom: 30px;
+        }
+    </style>
+{% endblock head %}
+{% block content %}
+    <div id="form_body" class="row justify-content-center mb-4"
+         style="margin-top: 30px;">
+        <div class="col-lg-5">
+            <div class="row user-form-card">
+                <div class="col-lg-12 zero-padding" style="">
+                    <div class="d-flex justify-content-center align-items-center text-capitalize special-font h2"
+                         style="height: 50px;color: orange">
+                        Create Course
+                    </div>
+                    <div style="padding: 0 40px;">
+                        <form action="{% url 'create_course' %}" method="post" id="form">
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="col">
+                                    <div class="form-floating mb-3">
+                                        <input type="text" class="form-control" id="code"
+                                               name="code" autocomplete="given-name" placeholder="Course Code"
+                                               value="{{ course.code }}" required>
+                                        <label for="code" class="text-capitalize">Course Code</label>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="form-floating mb-3">
+                                        <input type="number" class="form-control" id="hours"
+                                               name="hours" autocomplete="" placeholder="Hours"
+                                               value="{{ course.hours }}" required>
+                                        <label for="hours" class="text-capitalize">hours</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control" placeholder="name" id="name"
+                                       name="name" autocomplete="" value="{{ course.name }}"
+                                       required>
+                                <label for="name" class="text-capitalize">course name</label>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <div class="form-floating mb-3">
+                                        <input type="text" class="form-control" placeholder="prerequisite"
+                                               id="prerequisite"
+                                               name="prerequisite" autocomplete="" value="{{ course.prerequisite }}"
+                                               required>
+                                        <label for="prerequisite" class="text-capitalize">prerequisite courses</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <div class="input-group">
+                                        <label class="me-3 d-flex justify-content-center align-items-center
+                                        text-capitalize">
+                                            start: </label>
+                                        <input type="date" name="start" class="vDateField" size="10" id="start"
+                                               placeholder="start" autocomplete="" required
+                                               value="{{ course.start|date:"Y-m-d" }}">
+                                        <div class="input-group-text">
+                                            <label class="fas fa-calendar"></label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="input-group">
+                                        <label class="me-3 d-flex justify-content-center align-items-center
+                                        text-capitalize" for="end">
+                                            end: </label>
+                                        <input type="date" name="end" class="vDateField" size="10" id="end"
+                                               placeholder="end" autocomplete="" required
+                                               value="{{ course.end|date:"Y-m-d" }}">
+                                        <div class="input-group-text">
+                                            <label class="fas fa-calendar"></label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-floating my-3">
+                                <input type="text" class="form-control" placeholder="location" id="location"
+                                       name="location" autocomplete="location" required
+                                       value="{{ course.location }}">
+                                <label for="location" class="text-capitalize">location</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control" placeholder="description" id="description"
+                                       name="description" autocomplete="description" required
+                                       value="{{ course.description }}">
+                                <label for="description" class="text-capitalize">description</label>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-auto d-flex justify-content-center align-items-center">
+                                    <label for="level" class="text-capitalize">Level:</label>
+                                </div>
+                                <div class="col">
+                                    <select class="form-select form-select-md"
+                                            aria-label=".form-select-lg example" id="level" name="level"
+                                            form="form">
+                                        {% load custom_tags %}
+                                        {% if course.level %}
+                                            <option value="{{ course.level }}"
+                                                    selected>{{ course.level_text }}</option>
+                                        {% endif %}
+                                        {% for level in available_levels %}
+                                            <option value="{{ level }}">{% lookup available_levels level %}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control" placeholder="link" id="link"
+                                       name="link" autocomplete="link" required
+                                       value="{{ course.link }}">
+                                <label for="link" class="text-capitalize">form link to join the class:</label>
+                            </div>
+                            <div class="text-center mb-3">
+                                <button class="btn btn-lg btn-default mx-4 col-2" type="submit"
+                                        style="color: white" value="Sign up">
+                                    Save
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

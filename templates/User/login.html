@@ -11,14 +11,6 @@
             -webkit-text-fill-color: transparent;
         }
 
-        .font-style {
-            font-family: 'Abril Fatface', sans-serif;
-        }
-
-        .zero-padding {
-            padding: 0;
-        }
-
         .btn-default {
             color: #fff;
             text-transform: uppercase;
@@ -64,13 +56,38 @@
             overflow: hidden;
         }
 
-        .form-floating > label {
-            color: black;
-        }
     </style>
 {% endblock head %}
 
 {% block content %}
+    <div class="modal fade" tabindex="-1" id="facial-login" style="color: black">
+        <div class="modal-dialog modal-dialog-centered modal-xl" style="">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-capitalize">
+                        ⚠️ we will take a photo automatically just don't move
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row justify-content-center">
+                        <video class="col" autoplay playsinline id="videoElement"></video>
+                        <div style="height: 0px;visibility: hidden;" id="confirm-div"
+                             class="d-flex align-items-center justify-content-center h1">
+                            <a class="btn btn-lg btn-default" style="color: white;" href="{% url "home" %}"
+                               id="result-div-login">
+                                Done
+                            </a>
+                        </div>
+                    </div>
+                    <canvas id="canvas" width="400" height="300" hidden></canvas>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="row justify-content-center" style="margin-top: 50px;">
         <div class="col-lg-8">
             <div class="row">
@@ -79,7 +96,7 @@
                         {% csrf_token %}
                         <div>
                             <div class="text-center mb-3">
-                                <h1 class="font-style">Please Login</h1>
+                                <h1 class="special-font">Please Login</h1>
                             </div>
                             <div>
                                 <div class="form-floating mb-3">
@@ -90,20 +107,20 @@
                                 </div>
                                 <div class="form-floating mb-3">
                                     <input type="password" class="form-control" id="password" placeholder="Password"
-                                           name="password"
+                                           name="password" autocomplete="current-password"
                                            required>
                                     <label for="password">Password</label>
                                 </div>
-                                <div class="checkbox mb-3">
-                                    <label>
-                                        <input type="checkbox" value="remember-me" name="remember_me" id="remember_me">
-                                        <b>Remember me</b>
-                                    </label>
-                                </div>
                                 <div class="text-center mb-3">
-                                    <button class="w-40 btn btn-lg ck btn-default" type="submit"
+                                    <button class="btn btn-lg btn-default" type="submit"
                                             style="background-color: purple;color: white">
                                         Login
+                                    </button>
+                                    <button class="btn btn-lg btn-default"
+                                            style="color: white;" type="button" data-bs-toggle="modal"
+                                            data-bs-target="#facial-login">
+                                        <img style="width: 29px;"
+                                             src="data:image/png;base64,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">
                                     </button>
                                 </div>
                             </div>
@@ -175,8 +192,102 @@
             </div>
         </div>
     </div>
-    <p class="h2 font-style text-capitalize" style="color: white;position: relative;bottom: 170px;left:780px">
+    <p class="h2 special-font text-capitalize" style="color: white;position: relative;bottom: 170px;left:780px">
         Hey<br>welcome<br>back
     </p>
+    <script>
+        const myModalEl = document.getElementById('facial-login')
+        var timerId;
+        myModalEl.addEventListener('shown.bs.modal', event => {
+            var canvas = document.getElementById('canvas');
+            var context = canvas.getContext('2d');
+            const video = document.querySelector("#videoElement");
 
+            video.width = 400;
+            video.height = 300;
+            if (navigator.mediaDevices.getUserMedia) {
+                {# Start user camera #}
+                navigator.mediaDevices.getUserMedia({
+                    video: true
+                })
+                    .then(function (stream) {
+                        video.srcObject = stream;
+                        video.play();
+                        window.localStream = stream;
+                    })
+                    .catch(function (err0r) {
+                    });
+            }
+            var count = 0;
+            timerId = setInterval(send_image, 2000);
+
+            function send_image() {
+                width = video.width;
+                height = video.height;
+                context.drawImage(video, 0, 0, width, height);
+                var image_data = canvas.toDataURL('image/jpeg', 0.5);
+                context.clearRect(0, 0, width, height);
+                $.ajax({
+                        type: 'POST',
+                        url: "https://detectfaceusermoveapi.pythonanywhere.com/detect_face_user_move",
+                        data: {
+                            'image': image_data,
+                            csrfmiddlewaretoken: '{{ csrf_token }}'
+                        },
+                        success: function (data) {
+                            if (data['Json'] === "Blue") {
+                                count++;
+                                {# be in safe side and ignore first image #}
+                                if (count > 1) {
+                                    $.ajax({
+                                        type: 'POST',
+                                        url: "{% url "facial_login" %}",
+                                        data: {
+                                            'image': image_data,
+                                            csrfmiddlewaretoken: '{{ csrf_token }}'
+                                        },
+                                        success: function (s_data) {
+                                            {# when success stop sending image #}
+                                            {# Stop Sending Data #}
+                                            clearInterval(timerId);
+
+                                            {# close user camera #}
+                                            localStream.getTracks().forEach(function (track) {
+                                                track.stop();
+                                            });
+                                            $("#videoElement").hide();
+                                            $("#confirm-div").attr({style: "visibility: show;height: 300px"});
+                                            if (s_data['result'] === 'Done') {
+                                                location.reload();
+                                            } else {
+                                                $("#result-div-login").text("Face is not Identified, Try Again later");
+                                                $("#result-div-login").prop("href", "{% url "login" %}");
+                                            }
+                                        },
+                                        error: function (response) {
+                                            console.log('Error')
+                                        },
+                                    });
+                                    {# stop sending data if found face one time #}
+                                    clearInterval(timerId);
+                                }
+                            }
+                        },
+                        error: function (response) {
+                            console.log('Error')
+                        },
+                    }
+                );
+            }
+        })
+        myModalEl.addEventListener('hidden.bs.modal', event => {
+            {# Stop Sending Data #}
+            clearInterval(timerId);
+
+            {# close user camera #}
+            localStream.getTracks().forEach(function (track) {
+                track.stop();
+            });
+        })
+    </script>
 {% endblock content %}

@@ -2,7 +2,6 @@
 {% block head %}
     <style>
         th > a {
-
             color: white;
         }
     </style>
@@ -12,14 +11,14 @@
     <div class="row justify-content-center">
         <div class="col-12">
             <div class="row mt-2">
-                <form action="{% url "view_instructors" %}" method="get" id="form">
+                <form action="{% url "view_courses" %}" method="get" id="form">
                     <div class="row">
                         <div class="col-3">
                             <div class="form-floating">
-                                <input type="text" class="form-control" id="name_username" name="name_username"
-                                       autocomplete="given-name" placeholder="Name or Username"
-                                       value="{{ request.GET.name_username }}">
-                                <label for="name_username" class="text-capitalize">Search by name or username</label>
+                                <input type="text" class="form-control" id="name_code" name="name_code"
+                                       autocomplete="given-name" placeholder="Name or Code"
+                                       value="{{ request.GET.name_code }}">
+                                <label for="name_code" class="text-capitalize">Search by Course name or code</label>
                             </div>
                         </div>
                         <div class="col-auto">
@@ -46,7 +45,7 @@
     </div>
     <script>
         $('#reset').click(function () {
-            $('#name_username').val('');
+            $('#name_code').val('');
         });
     </script>
 {% endblock content %}

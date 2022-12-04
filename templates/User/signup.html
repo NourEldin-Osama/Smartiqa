@@ -1,11 +1,6 @@
 {% extends 'layouts/base.html' %}
 {% block head %}
     <style>
-        .font-style {
-            font-family: 'Abril Fatface', sans-serif;
-        }
-
-
         .btn-default {
             color: #fff;
             text-transform: uppercase;
@@ -42,28 +37,19 @@
             opacity: 1;
             animation: animate 8s linear infinite;
         }
-
-        .form-floating > label {
-            top: -8px;
-            color: black;
-        }
-
-        .form-floating > .form-control {
-            height: calc(2.5rem + 2px);
-        }
     </style>
 {% endblock head %}
 {% block content %}
-    <div class="row justify-content-center" style="margin-top: 10px;">
+    <div class="row justify-content-center mb-4" style="margin-top: 10px;">
         <div class="col-lg-5">
             {#            border: 0.1px solid orange#}
             <div class="row user-form-card" style="">
                 <div class="col-lg-12 zero-padding" style="">
-                    <div class="d-flex justify-content-center align-items-center text-capitalize font-style h1 text-light"
+                    <div class="d-flex justify-content-center align-items-center text-capitalize special-font h1 text-light"
                          style="background-color: orange; height: 70px;">
                         Welcome to smartiqa family
                     </div>
-                    <div class="d-flex justify-content-center align-items-center text-capitalize font-style h2"
+                    <div class="d-flex justify-content-center align-items-center text-capitalize special-font h2"
                          style="height: 50px;">
                         Please Sign up
                     </div>
@@ -187,19 +173,13 @@
                             <input class="mt-1" type="file" name="picture" accept="image/*" capture>
                             <div class="row justify-content-between mt-3">
                                 <div class="col-4">
-                                    <div class="icheck-primary">
-                                        <input type="checkbox" id="agreeTerms" name="terms" value="agree" required>
-                                        <label for="agreeTerms">
-                                            I agree to the <a href="#">terms</a>
-                                        </label>
-                                    </div>
                                 </div>
                                 <div class="col-5 text-end">
                                     <a href="{% url "login" %}">I already have an Account</a>
                                 </div>
                             </div>
                             <div class="text-center mb-3">
-                                <button class="w-40 btn btn-lg ck btn-default" type="submit"
+                                <button class="btn btn-lg btn-default" type="submit"
                                         style="color: white" value="Sign up">
                                     Sign Up
                                 </button>

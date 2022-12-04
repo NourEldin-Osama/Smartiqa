@@ -2,8 +2,7 @@
 {% block head %}
     <style>
         th > a {
-
-            color: white;
+         color: white;
         }
     </style>
 {% endblock head %}
@@ -12,23 +11,25 @@
     <div class="row justify-content-center">
         <div class="col-12">
             <div class="row mt-2">
-                <form action="{% url "view_instructors" %}" method="get" id="form">
+                <form action="{% url "view_internet_courses" %}" method="get" id="form">
                     <div class="row">
                         <div class="col-3">
                             <div class="form-floating">
-                                <input type="text" class="form-control" id="name_username" name="name_username"
-                                       autocomplete="given-name" placeholder="Name or Username"
-                                       value="{{ request.GET.name_username }}">
-                                <label for="name_username" class="text-capitalize">Search by name or username</label>
+                                <input type="text" class="form-control" id="name_organization" name="name_organization"
+                                       autocomplete="given-name" placeholder="Name or Organization"
+                                       value="{{ request.GET.name_organization }}">
+                                <label for="name_organization" class="text-capitalize">
+                                    Search by Course name or Organization
+                                </label>
                             </div>
                         </div>
                         <div class="col-auto">
-                            <button type="submit" id='submit' class="btn btn btn-default search" style="height: 100%;">
+                            <button type="submit" id='submit' class="btn btn-default search" style="height: 100%;">
                                 Search
                             </button>
                         </div>
                         <div class="col-auto">
-                            <button type="button" id='reset' class="btn btn btn-default clear" style="height: 100%;">
+                            <button type="button" id='reset' class="btn btn-default clear" style="height: 100%;">
                                 Clear
                             </button>
                         </div>
@@ -46,7 +47,7 @@
     </div>
     <script>
         $('#reset').click(function () {
-            $('#name_username').val('');
+            $('#name_organization').val('');
         });
     </script>
 {% endblock content %}

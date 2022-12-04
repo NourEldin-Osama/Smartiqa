@@ -38,6 +38,17 @@
             animation: animate 8s linear infinite;
         }
 
+        .profile-img-style {
+            background-color: white;
+            position: absolute;
+            left: 325px;
+            top: 165px;
+        }
+
+        .handle-large-text {
+            line-break: anywhere;
+        }
+
     </style>
 {% endblock head %}
 {% block content %}
@@ -48,49 +59,30 @@
                     <div class="ms-5">
                         {% if instructor_data.picture %}
                             <img src="{{ instructor_data.picture.url }}"
-                                 class="" height="400" width="450"
-                                 loading="lazy"
-                                 style="background-color:white;"/>
+                                 class="profile-img-style" height="300" width="300" loading="lazy"/>
                         {% elif accounts.google.0.extra_data.picture %}
                             <img src="{{ accounts.google.0.extra_data.picture }}"
-                                 class="" height="400" width="450"
-                                 loading="lazy"
-                                 style="background-color:white;"/>
+                                 class="profile-img-style" height="300" width="300" loading="lazy"/>
                         {% else %}
                             <img src="https://img.icons8.com/material/48/000000/user-male-circle--v1.png"
-                                 class="" height="400" width="450"
-                                 loading="lazy"
-                                 style="background-color:white;"/>
+                                 class="profile-img-style" height="300" width="300" loading="lazy"/>
                         {% endif %}
                     </div>
                 </div>
                 <div class="col-lg-6">
                     <div class="text-center h1 mt-5">{{ instructor_data.name }}</div>
-                    <div class="text-center h4">{{ instructor.job_title }}</div>
+                    <div class="text-center h4 handle-large-text">{{ instructor.job_title }}</div>
                     <div class="h4 mt-5"><strong>Bio</strong></div>
-                    <div class="h6">{{ instructor.bio }}</div>
+                    <div class="h6 handle-large-text">{{ instructor.bio }}</div>
                     <div class="h4 mt-4"><strong>Experience</strong></div>
-                    <div class="h6">{{ instructor.experience }}</div>
-                    <div class="text-center">
-                        <a class="btn btn-default mt-4 btn-lg" role="button" href="#">View My Courses</a>
-                    </div>
-                    <div class="h3" style="position: relative; right: 256px;top: -66px;">
-                        Instructor
+                    <div class="h6 handle-large-text">{{ instructor.experience }}</div>
+                    <div class="text-center mb-2">
+                        <a class="btn btn-default mt-4 btn-lg" role="button"
+                           href="{% url "view_courses" %}?instructor={{ instructor_data.username }}">
+                            View My Courses</a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    {% comment %}
-    {{ user }}
-    <br>
-    {{ instructor.job_title }}
-    <br>
-    {{ instructor.bio }}
-    <br>
-    {{ instructor.experience }}
-    <br>
-
-    <p>Courses</p>
-    {% endcomment %}
 {% endblock content %}

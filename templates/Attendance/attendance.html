@@ -1,0 +1,95 @@
+{% extends 'layouts/base.html' %}
+{% block head %}
+    <style>
+        th > a {
+            color: white;
+        }
+
+        .false {
+            color: red;
+        }
+
+        .true {
+            background-color: greenyellow;
+        }
+
+    </style>
+{% endblock head %}
+{% block content %}
+    <div class="row justify-content-center" style="margin-top: 50px;">
+        <div class="col-10">
+            <div class="row justify-content-between">
+                <div class="col text-center"><img
+                        src="data:image/png;base64,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">
+                </div>
+                <div class="col text-center"><img
+                        src="data:image/png;base64,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">
+                </div>
+                <div class="col text-center"><img
+                        src="data:image/png;base64,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">
+                </div>
+            </div>
+            <div class="row text-capitalize">
+                <div class="col text-center h3">All</div>
+                <div class="col text-center h3">Attendees</div>
+                <div class="col text-center h3">Absents</div>
+            </div>
+            <div class="row text-capitalize">
+                <div class="col text-center h3">{{ All }}</div>
+                <div class="col text-center h3">{{ Attendees }}</div>
+                <div class="col text-center h3">{{ Absents }}</div>
+            </div>
+        </div>
+    </div>
+    {% load render_table from django_tables2 %}
+    <div class="row justify-content-center">
+        <div class="col-12">
+            <div class="row mt-2">
+                <form action="{% url "attendance" %}" method="get" id="form">
+                    <div class="row">
+                        <div class="col-3">
+                            <div class="form-floating">
+                                <input type="text" class="form-control" id="name_course" name="name_course"
+                                       autocomplete="given-name" placeholder="Name or Course"
+                                       value="{{ request.GET.name_course }}">
+                                <label for="name_course" class="text-capitalize">Search by Name or Course</label>
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <button type="submit" id='submit' class="btn btn btn-default search" style="height: 100%;">
+                                Search
+                            </button>
+                        </div>
+                        <div class="col-auto">
+                            <button type="button" id='reset' class="btn btn btn-default clear" style="height: 100%;">
+                                Clear
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="row mt-4">
+                <div class="col">
+                    <div class="table-responsive">
+                        {% render_table table %}
+                        {% if not filter.qs %}
+                            <div class="text-center text-capitalize text-danger">
+                                <h1>
+                                    Sorry, there is no data to show
+                                </h1>
+                                <h4>
+                                    try clear the filter if you used it or add data
+                                </h4>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        $('#reset').click(function () {
+            $('#name_course').val('');
+        });
+    </script>
+{% endblock content %}

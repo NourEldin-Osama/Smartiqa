@@ -1,7 +1,11 @@
-Django
+django=4.1.3
 Pillow
 django-allauth
 djangorestframework
 django-filter
 markdown
 django-tables2
+django-sslserver
+pandas
+openpyxl
+xlrd

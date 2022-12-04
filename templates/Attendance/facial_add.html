@@ -1,0 +1,121 @@
+{% extends 'layouts/base.html' %}
+{% block content %}
+    <div class="row justify-content-center">
+        <div class="col-4 user-form-card p-4">
+            <div class="row mt-2">
+                <video class="col" autoplay playsinline id="videoElement"></video>
+                <canvas id="canvas" width="400" height="300" hidden></canvas>
+            </div>
+            <div class="row justify-content-center mt-4">
+                <button type="button" id="toggle-button" class="col-auto btn btn-lg btn-danger">
+                    Start
+                </button>
+            </div>
+            <div class="row mt-4">
+                <label class="col-auto me-3 d-flex justify-content-center align-items-center">My Course</label>
+                <select class="form-select form-select-md col"
+                        aria-label=".form-select-lg example" id="course" name="course">
+                    {% for course in courses %}
+                        <option value="{{ course.course_id }}">{{ course.course__name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+    </div>
+    <script>
+        var timerId;
+        var canvas = document.getElementById('canvas');
+        var context = canvas.getContext('2d');
+        const video = document.querySelector("#videoElement");
+
+        video.width = 400;
+        video.height = 300;
+
+        var count = 0;
+
+        function send_image() {
+            width = video.width;
+            height = video.height;
+            context.drawImage(video, 0, 0, width, height);
+            var image_data = canvas.toDataURL('image/jpeg', 0.5);
+            context.clearRect(0, 0, width, height);
+            $.ajax({
+                    type: 'POST',
+                    url: "https://detectfaceusermoveapi.pythonanywhere.com/detect_face_user_move",
+                    data: {
+                        'image': image_data,
+                        csrfmiddlewaretoken: '{{ csrf_token }}'
+                    },
+                    success: function (data) {
+                        if (data['Json'] === "Blue") {
+                            count++;
+                            {# be in safe side and ignore first image #}
+                            if (count > 1) {
+                                var selected_course = $("#course").val();
+                                $.ajax({
+                                    type: 'POST',
+                                    url: "{% url "facial_add_attendance_api" %}",
+                                    data: {
+                                        'image': image_data,
+                                        'course': selected_course,
+                                        csrfmiddlewaretoken: '{{ csrf_token }}'
+                                    },
+                                    success: function (s_data) {
+                                        var state_result = s_data['result'].split(', ')[0];
+                                        if (state_result === 'Fail') {
+                                            {#  error  #}
+                                            alert(s_data['result']);
+                                        } else {
+                                            {#  success  #}
+                                            alert(s_data['result']);
+                                        }
+                                    },
+                                    error: function (response) {
+                                        console.log('Error')
+                                    },
+                                });
+                            }
+                        }
+                    },
+                    error: function (response) {
+                        console.log('Error')
+                    },
+                }
+            );
+        }
+
+        $("#toggle-button").click(function () {
+            if ($("#toggle-button").text().trim() === "Stop") {
+                {# Stop Sending Data #}
+                clearInterval(timerId);
+
+                {# close user camera #}
+                localStream.getTracks().forEach(function (track) {
+                    track.stop();
+                });
+                $("#videoElement").attr({style: "visibility: hidden;"});
+                $("#toggle-button").text('Start');
+            } else {
+                if (navigator.mediaDevices.getUserMedia) {
+                    {# Start user camera #}
+                    navigator.mediaDevices.getUserMedia({
+                        video: true
+                    })
+                        .then(function (stream) {
+                            video.srcObject = stream;
+                            video.play();
+                            window.localStream = stream;
+                        })
+                        .catch(function (err0r) {
+                        });
+                }
+                count = 0;
+                {# run send_image function every 8 seconds #}
+                timerId = setInterval(send_image, 8000);
+
+                $("#videoElement").attr({style: "visibility: visible;"});
+                $("#toggle-button").text('Stop');
+            }
+        });
+    </script>
+{% endblock %}

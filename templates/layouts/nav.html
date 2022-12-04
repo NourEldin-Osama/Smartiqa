@@ -20,6 +20,19 @@
         color: orange;
     }
 
+    .dropdown-items {
+        color: black;
+    }
+
+    .navbar-nav > .dropdown {
+        --bs-nav-link-hover-color: orange;
+    }
+
+    .dropdown-items.active {
+        --bs-navbar-active-color: black;
+        background-color: #d2d2d2;
+    }
+
 </style>
 {% load custom_tags %}
 <nav class="navbar navbar-expand-xxl fixed-top navbar-dark bg-dark rounded" style="width: 90%;margin-left: 5%;">
@@ -48,6 +61,78 @@
                     <a class="nav-link {% active request.path "home" %}" href="{% url "home" %}#Contact_Us">
                         <i class='fa fa-comment icon-style'></i> Contacts</a>
                 </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle
+                            {% active_in request.path "instructor" %}{% active request.path "view_courses" %}"
+                       href="#" id="dropdown" data-bs-toggle="dropdown">
+                        <i class="fa-solid fa-chalkboard-user icon-style"></i> Instructor
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li class="nav-item">
+                            <a class="nav-link dropdown-items {% active request.path "view_instructors" %}"
+                               href="{% url "view_instructors" %}">
+                                <i class='fa-solid fa-chalkboard-user icon-style'></i> Instructor</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link dropdown-items {% active request.path "view_courses" %}"
+                               href="{% url "view_courses" %}">
+                                <i class='fas fa-book-open icon-style'></i> Course</a>
+                        </li>
+                        {% if user.is_instructor %}
+                            <li class="nav-item">
+                                <a class="nav-link dropdown-items {% active request.path "create_course" %}"
+                                   href="{% url "create_course" %}">
+                                    <i class='fas fa-plus icon-style'></i> Create Course</a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% active request.path "view_internet_courses" %}"
+                       href="{% url "view_internet_courses" %}">
+                        <i class='fa fa-globe icon-style'></i> Internet Courses</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle
+                            {% active_in request.path "test" %}"
+                       href="#" id="dropdown" data-bs-toggle="dropdown">
+                        <i class='fa fa-solid fa-list icon-style'></i> Placement Test
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li class="nav-item">
+                            <a class="nav-link dropdown-items {% active request.path "tests" %}"
+                               href="{% url "tests" %}">
+                                <i class='fa fa-solid fa-list icon-style'></i> Placement Test</a>
+                        </li>
+                    </ul>
+                </li>
+                {% if user.is_superuser or user.is_instructor %}
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle
+                            {% active_in request.path "attendance" %}"
+                           href="#" id="dropdown" data-bs-toggle="dropdown">
+                            <i class='fa fa-solid fa-users icon-style'></i> Attendance
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li class="nav-item">
+                                <a class="nav-link dropdown-items {% active request.path "attendance" %}"
+                                   href="{% url "attendance" %}">
+                                    <i class='fa fa-solid fa-users icon-style'></i> Attendance</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link dropdown-items {% active request.path "add_attendance" %}"
+                                   href="{% url "add_attendance" %}" style="white-space: nowrap;">
+                                    <i class='fas fa-plus icon-style'></i> Add An Attendance Excel</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link dropdown-items {% active request.path "facial_add_attendance" %}"
+                                   href="{% url "facial_add_attendance" %}" style="white-space: nowrap;">
+                                    <i class='fas fa-plus icon-style'>
+                                    </i> Take a Facial Attendance</a>
+                            </li>
+                        </ul>
+                    </li>
+                {% endif %}
             </ul>
         </div>
         <ul class="navbar-nav">
@@ -58,17 +143,17 @@
                     <a class="nav-link dropdown-toggle" href="" role="button" data-bs-toggle="dropdown">
                         {% if user.picture %}
                             <img src="{{ user.picture.url }}"
-                                 class="rounded-circle me-2" height="40"
+                                 class="rounded-circle me-2" height="40" width="40"
                                  loading="lazy"
                                  style="background-color:white;"/>
                         {% elif accounts.google.0.extra_data.picture %}
                             <img src="{{ accounts.google.0.extra_data.picture }}"
-                                 class="rounded-circle me-2" height="40"
+                                 class="rounded-circle me-2" height="40" width="40"
                                  loading="lazy"
                                  style="background-color:white;"/>
                         {% else %}
                             <img src="https://img.icons8.com/material/48/000000/user-male-circle--v1.png"
-                                 class="rounded-circle me-2" height="40"
+                                 class="rounded-circle me-2" height="40" width="40"
                                  loading="lazy"
                                  style="background-color:white;"/>
                         {% endif %}

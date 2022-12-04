@@ -1,0 +1,102 @@
+{% extends 'layouts/base.html' %}
+{% block head %}
+    <style>
+        th > a {
+            color: white;
+        }
+
+        body {
+            overflow-x: hidden;
+        }
+    </style>
+{% endblock head %}
+{% block content %}
+    <div class="modal fade col-3" tabindex="-1" id="TestModal" style="color: black">
+        <div class="modal-dialog modal-dialog-centered" style="--bs-modal-width:530px">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-capitalize">
+                        ⚠️Instructions must be read carefully
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div>
+                        <h5>The placement test consists of 4 levels:</h5>
+                        <ol>
+                            <li>Beginner from 0% to 25% of the test.</li>
+                            <li>Intermediate from 25% to 50% of the test.</li>
+                            <li>Advanced from 50% to 75% of the test.</li>
+                            <li>Professional from 75% to 100% of the test.</li>
+                        </ol>
+                        <h5>Rules:</h5>
+                        <ol>
+                            <li>Do NOT look at anything EXCEPT the test page.</li>
+                            <li>Answer all the Questions carefully.</li>
+                            <li>After finishing click on Submit button and waiting for your level.</li>
+                        </ol>
+                        <h5>Notes:</h5>
+                        <ul>
+                            <li>Test duration is 60 minutes.</li>
+                            <li>If you look at anything except the test page more than 5 times, the test will count as
+                                cheating. So, it will close automatically and your level will appear.
+                            </li>
+                            <li>You have ONLY 1 try in a week.</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <success class="alert alert-info alert-dismissible fade show d-flex justify-content-center" role="alert">
+        Note: If you did not find your course test please contact us, and we will add it here
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label=""></button>
+    </success>
+    {% load render_table from django_tables2 %}
+    <div class="row justify-content-center">
+        <div class="col-12">
+            <div class="row mt-2">
+                <form action="{% url "tests" %}" method="get" id="form">
+                    <div class="row">
+                        <div class="col-3">
+                            <div class="form-floating">
+                                <input type="text" class="form-control" id="name_field" name="name_field"
+                                       autocomplete="given-name" placeholder="Name or Field"
+                                       value="{{ request.GET.name_field }}">
+                                <label for="name_field" class="text-capitalize">Search by Test name or field</label>
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <button type="submit" id='submit' class="btn btn btn-default search" style="height: 100%;">
+                                Search
+                            </button>
+                        </div>
+                        <div class="col-auto">
+                            <button type="button" id='reset' class="btn btn btn-default clear" style="height: 100%;">
+                                Clear
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="row mt-4">
+                <div class="col">
+                    <div class="table-responsive">
+                        {% render_table table %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        $(window).on('load', function () {
+            $('#TestModal').modal('show');
+        });
+        $('#reset').click(function () {
+            $('#name_field').val('');
+        });
+    </script>
+{% endblock content %}

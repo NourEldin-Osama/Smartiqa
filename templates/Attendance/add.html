@@ -1,0 +1,64 @@
+{% extends 'layouts/base.html' %}
+{% block head %}
+    <style>
+        th > a {
+            color: white;
+        }
+    </style>
+{% endblock head %}
+{% block content %}
+    <div class="row justify-content-center" style="margin-top: 50px;">
+        <div class="col-6">
+            <div class="row justify-content-center user-form-card p-4">
+                <div class="col">
+                    <form action="{% url "add_attendance" %}" method="post" id="form" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col text-capitalize">
+                                <h5>Upload Excel or CSV file Contains the following columns:</h5>
+                                {% if user.is_instructor %}
+                                <p>Student name, course id, date, state</p>
+                                <p>
+                                    <strong>state</strong> should be
+                                    <strong>TRUE</strong> if the student attended
+                                    else it should be <strong>FALSE</strong>
+                                </p>
+                                <strong>Example</strong>
+                                <pre>
+name,course,date,state
+Ahmed Mohab,5,2022-04-20,TRUE
+                                </pre>
+                                {% elif user.is_superuser %}
+                                <p>Student name, instructor id, course id, date, state</p>
+                                <p>
+                                    <strong>state</strong> should be
+                                    <strong>TRUE</strong> if the student attended
+                                    else it should be <strong>FALSE</strong>
+                                </p>
+                                <strong>Example</strong>
+                                <pre>
+name,instructor,course,date,state
+Ahmed Mohab,3,5,2022-04-20,TRUE
+                                </pre>
+                                {% endif %}
+                                <label for="excel_file">
+                                    File:
+                                </label>
+                                <input class="mt-1" type="file" name="excel_file" id="excel_file"
+                                       accept=".xlsx, .xls, .csv, text/csv" required/>
+                            </div>
+                        </div>
+                        <div class="row mt-4 justify-content-center">
+                            <div class="col-auto">
+                                <button type="submit" id='submit' class="btn btn btn-primary"
+                                        style="height: 100%;">
+                                    Submit
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

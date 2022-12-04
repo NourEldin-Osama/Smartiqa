@@ -1,20 +1,12 @@
 {% extends 'layouts/base.html' %}
 {% block head %}
     <style>
-        .font-style {
-            font-family: 'Abril Fatface', sans-serif;
-        }
-
-        .zero-padding {
-            padding: 0;
-        }
-
         .btn-default {
             color: #fff;
             text-transform: uppercase;
             font-family: sans-serif;
             box-sizing: border-box;
-            background: linear-gradient(90deg, orange, orange, yellow, white, grey, orange, orange, yellow);
+            background: linear-gradient(90deg, green, green, yellow, white, grey, green, green, yellow);
             background-size: 400%;
             border-radius: 30px;
         }
@@ -46,15 +38,6 @@
             animation: animate 8s linear infinite;
         }
 
-        .form-floating > label {
-            top: -8px;
-            color: black;
-        }
-
-        .form-floating > .form-control {
-            height: calc(2.5rem + 2px);
-        }
-
         .profile-image {
             position: relative;
             bottom: 30px;
@@ -62,34 +45,34 @@
     </style>
 {% endblock head %}
 {% block content %}
-    <div id="form_body" class="row justify-content-center"
+    <div id="form_body" class="row justify-content-center mb-4"
          style="margin-top: 10px;">
         <div class="col-lg-5">
             <div style="height: 60px"></div>
             <div class="row user-form-card">
-                <div class="d-flex justify-content-center align-items-center text-capitalize font-style h1 text-light"
+                <div class="d-flex justify-content-center align-items-center text-capitalize special-font h1 text-light"
                      style="height: 60px;">
                     {% load socialaccount %}
                     {% get_social_accounts user as accounts %}
                     {% if user.picture %}
                         <img src="{{ user.picture.url }}"
-                             class="rounded-circle me-2 profile-image" height="140"
+                             class="rounded-circle me-2 profile-image" height="140" width="140"
                              loading="lazy"
                              style="background-color:white;"/>
                     {% elif accounts.google.0.extra_data.picture %}
                         <img src="{{ accounts.google.0.extra_data.picture }}"
-                             class="rounded-circle me-2 profile-image" height="140"
+                             class="rounded-circle me-2 profile-image" height="140" width="140"
                              loading="lazy"
                              style="background-color:white;"/>
                     {% else %}
                         <img src="https://img.icons8.com/material/48/000000/user-male-circle--v1.png"
-                             class="rounded-circle me-2 profile-image" height="140"
+                             class="rounded-circle me-2 profile-image" height="140" width="140"
                              loading="lazy"
                              style="background-color:white;"/>
                     {% endif %}
                 </div>
                 <div class="col-lg-12 zero-padding" style="">
-                    <div class="d-flex justify-content-center align-items-center text-capitalize font-style h2"
+                    <div class="d-flex justify-content-center align-items-center text-capitalize special-font h2"
                          style="height: 50px;">
                         personal information
                     </div>
@@ -238,11 +221,11 @@
                                 </div>
                             {% endif %}
                             <div class="text-center mb-3">
-                                <button id="edit" class="w-40 btn btn-lg ck btn-default mx-4 col-2" type="button"
+                                <button id="edit" class="btn btn-lg btn-default mx-4 col-2" type="button"
                                         style="color: white;">
                                     Edit
                                 </button>
-                                <button class="w-40 btn btn-lg ck btn-default mx-4 col-2" type="submit"
+                                <button class="btn btn-lg btn-default mx-4 col-2" type="submit"
                                         style="color: white" value="Sign up" disabled>
                                     Save
                                 </button>
