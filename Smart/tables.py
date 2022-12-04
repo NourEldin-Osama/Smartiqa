@@ -51,7 +51,7 @@ class Instructor_CoursesTable(tables.Table):
                                linkify=("instructor", [A("instructor__user__username")]))  # (viewname, args)
     code = tables.Column(accessor='course__code', verbose_name="Course Code",
                          linkify=("course", [A("course__code")]))  # (viewname, args)
-    level = tables.Column(accessor='course__level', verbose_name="Course Name")
+    level = tables.Column(accessor='course__level', verbose_name="Course Level")
 
     class Meta:
         model = Instructor_Courses
